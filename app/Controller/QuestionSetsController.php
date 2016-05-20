@@ -208,9 +208,11 @@ class QuestionSetsController extends AppController {
                 $this->Session->setFlash(__('The question set could not be saved. Please, try again.'));
             }
         } else {
+            $this->QuestionSet->recursive = -1;
             $options = array('conditions' => array('QuestionSet.' . $this->QuestionSet->primaryKey => $id));
 
             $this->request->data = $this->QuestionSet->find('first', $options);
+
         }
     }
 

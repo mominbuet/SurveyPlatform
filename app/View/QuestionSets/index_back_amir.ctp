@@ -1,4 +1,3 @@
-
 <?php echo $this->Html->css('jstree_style'); ?>
 
 <div class="row">
@@ -6,110 +5,40 @@
         <h1 class="inner-page-heading"><?php echo __('Survey'); ?></h1>
     </div>
 </div>
-
 <div class="custom-margin-all">
-    <div class="row">
-  <div class="col-lg-1">
-    <!-- <div class="sidebar-nav"> -->
-      <div class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <span class="visible-xs navbar-brand">Sidebar menu</span>
+<div class="row">
+    <div class="col-lg-12">
+        <!-- <h1 class="page-header">Survey</h1> -->
+        <?php // echo $this->Html->link(__('Add New Survey'), array('action' => 'add'), array('class' => 'btn btn-success')); ?>
+        <div class="btn-group btn-group-lg" style="width:100%;">
+            <button class="btn btn-primary fa fa-backward"  onclick="backStep()"> Back</button>
+            <button class="btn btn-info fa fa-plus" id="addSurvey" onclick="addSurvey()"> Add Survey</button>
+            <button class="btn btn-primary fa fa-plus" id="addFolder" onclick="addFolder()"> Add Folder</button>
+            <button class="btn btn-info fa fa-edit" id="editSurvey" onclick="editSurvey()"> Edit</button>
+            <button class="btn btn-primary fa fa-anchor" onclick="showSurvey()" id="showSurvey"> Questions</button>
+            <button class="btn btn-info fa fa-users"  data-toggle="modal" data-target="#myModal" > Assign User</button>
+            <button class="btn btn-primary fa fa-info-circle"  onclick="showInfo()" > Information</button>
+            <button class="btn btn-info fa fa-minus" onclick="removeItem()"> Delete</button>
         </div>
-        <div class="navbar-collapse collapse sidebar-navbar-collapse">
-          <ul class="nav navbar-nav left-buttons">
-            <li class="active">
-                <button class="btn btn-primary fa fa-backward"  onclick="backStep()"> <br>Back</button>
-            </li>
-            <li>
-                <button class="btn btn-primary fa fa-plus" id="addSurvey" onclick="addSurvey()"> <br>Add Survey</button>
-            </li>
-            <li>
-                <button class="btn btn-primary fa fa-plus" id="addFolder" onclick="addFolder()"> <br>Add Folder</button>
-            </li>
-            <li>
-                <button class="btn btn-primary fa fa-edit" id="editSurvey" onclick="editSurvey()"> <br>Edit</button>
-            </li>
-            <li>
-                <button class="btn btn-primary fa fa-anchor" onclick="showSurvey()" id="showSurvey"> <br>Questions</button>
-            </li>
-            <li>
-                <button class="btn btn-primary fa fa-users"  data-toggle="modal" data-target="#myModal" > <br>Assign User</button>
-            </li>
-            <li>
-                <button class="btn btn-primary fa fa-info-circle"  onclick="showInfo()" > <br>Information</button>
-            </li>
-            <li>
-                <button class="btn btn-primary fa fa-minus" onclick="removeItem()"> <br>Delete</button>
-            </li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
     </div>
-  <!-- </div> -->
-  <div class="col-lg-11">
-    <div class="row">
-        <div class="col-lg-12" id="divInfo"></div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12" id="tmpView" style ="margin-top: 10px;">
-    <!--        <div class="col-lg-4 " ><i class="fa fa-2x fa-folder-open"></i>Folder</div>
-            <div class="col-lg-4 " ><i class="fa fa-2x fa-file"></i>Folder</div>
-            <div class="col-lg-4 " ><i class="fa fa-2x fa-folder"></i>Folder</div>
-            <div class="col-lg-4"  style="background: #0a0"><i class="fa fa-3x fa-file"></i><span >Survey</span></div>-->
-        </div>
-
-    </div>
-    <?php // debug($treeJson);?>
-    <div class="row" style="margin-left:20px;margin-top:20px;" id="log">
-        
-    </div>
-  </div>
+    <!-- /.col-lg-12 -->
 </div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12" id="divInfo" style ="margin-top: 20px;"></div>
 </div>
-
-
-<!-- <div class="custom-margin-all">
-    <div class="row">
-        <div class="col-lg-12"> -->
-            <!-- <h1 class="page-header">Survey</h1> -->
-            <?php // echo $this->Html->link(__('Add New Survey'), array('action' => 'add'), array('class' => 'btn btn-success')); ?>
-            <!-- <div class="btn-group btn-group-lg" style="width:100%;">
-                <button class="btn btn-primary fa fa-backward"  onclick="backStep()"> Back</button>
-                <button class="btn btn-info fa fa-plus" id="addSurvey" onclick="addSurvey()"> Add Survey</button>
-                <button class="btn btn-primary fa fa-plus" id="addFolder" onclick="addFolder()"> Add Folder</button>
-                <button class="btn btn-info fa fa-edit" id="editSurvey" onclick="editSurvey()"> Edit</button>
-                <button class="btn btn-primary fa fa-anchor" onclick="showSurvey()" id="showSurvey"> Questions</button>
-                <button class="btn btn-info fa fa-users"  data-toggle="modal" data-target="#myModal" > Assign User</button>
-                <button class="btn btn-primary fa fa-info-circle"  onclick="showInfo()" > Information</button>
-                <button class="btn btn-info fa fa-minus" onclick="removeItem()"> Delete</button>
-            </div> -->
-        <!-- </div> -->
-        <!-- /.col-lg-12 -->
-    <!-- </div> -->
-    <!-- /.row -->
-    <!-- <div class="row">
-        <div class="col-lg-12" id="divInfo" style ="margin-top: 20px;"></div>
+<div class="row" style="margin-top: 20px;">
+    <div class="col-lg-12" id="tmpView" style ="margin-top: 20px;">
+<!--        <div class="col-lg-4 " ><i class="fa fa-2x fa-folder-open"></i>Folder</div>
+        <div class="col-lg-4 " ><i class="fa fa-2x fa-file"></i>Folder</div>
+        <div class="col-lg-4 " ><i class="fa fa-2x fa-folder"></i>Folder</div>
+        <div class="col-lg-4"  style="background: #0a0"><i class="fa fa-3x fa-file"></i><span >Survey</span></div>-->
     </div>
-    <div class="row" style="margin-top: 20px;">
-        <div class="col-lg-12" id="tmpView" style ="margin-top: 20px;"> -->
-    <!--        <div class="col-lg-4 " ><i class="fa fa-2x fa-folder-open"></i>Folder</div>
-            <div class="col-lg-4 " ><i class="fa fa-2x fa-file"></i>Folder</div>
-            <div class="col-lg-4 " ><i class="fa fa-2x fa-folder"></i>Folder</div>
-            <div class="col-lg-4"  style="background: #0a0"><i class="fa fa-3x fa-file"></i><span >Survey</span></div>-->
-        <!-- </div>
 
-    </div> -->
-    <?php // debug($treeJson);?>
-    <!-- <div class="row" style="margin-top: 20px;margin-left:20px;" id="log">
-        
-    </div> -->
-<!-- </div> --><!-- /.custom-margin-all -->
+</div>
+<?php // debug($treeJson);?>
+<div class="row" style="margin-top: 20px;margin-left:20px" id="log"></div>
+</div><!-- /.custom-margin-all -->
 <script type="text/javascript">
     var inFolder = null;
     var data = '<?php echo $treeJson; ?>';
@@ -273,7 +202,6 @@
     }
     var prevNode;
 </script>
-
 <div class="row">
     <div class="col-lg-12">
         <div id="jsTreeSample" class="jstree-default">
@@ -281,7 +209,6 @@
         </div>
     </div>
 </div>
-
 <!--<div class="row" style="display: none;">
     <div class="col-lg-12">
         <div class="panel panel-default">

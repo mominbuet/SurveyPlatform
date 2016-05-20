@@ -712,6 +712,7 @@ class SurveyAPIController extends AppController {
                             'is_supervisor' => $result->is_supervisor,
                             'visible_name_by_user' => $result->visible_name_by_user,
                             'user_form_id' => $result->user_form_id,
+                            //'child_ref_survey_id' => $result->child_ref_survey_id// child_survey_data_id 
                         ));
                     }
                     $qsndataID = $this->UsersQuestionData->getLastInsertId();
@@ -1017,7 +1018,7 @@ ORDER BY user_name ");
             $qs = $this->QuestionSet->query(" SELECT Survey_Id, qsn_set_name, IFNULL(countsurvey, 0) countsurvey, IFNULL(auditedsurvey,0) auditedsurvey FROM (
 				SELECT qsets.id as Survey_Id, qsets.qsn_set_name, count(UsersQuestionData.id) as countsurvey "
                     . " from pmtc_question_sets as qsets"
-                    . " LEFT JOIN pmtc_users_question_data as UsersQuestionData on UsersQuestionData.qsn_set_master_id = qsets.id where UsersQuestionData.user_id = $userid "
+                    . " LEFT JOIN pmtc_users_question_data as UsersQuestionData on UsersQuestionData.qsn_set_master_id = qsets.id where UsersQuestionData.user_id = $userid GROUP BY Survey_Id "
                     . "  ) qsets "
                     . " Left JOIN ( SELECT qsn_set_master_id, count(id) as auditedsurvey FROM pmtc_users_question_data WHERE is_audit_done='Y' and user_id = $userid GROUP BY qsn_set_master_id 
 					) UQ ON UQ.qsn_set_master_id = qsets.Survey_Id ");

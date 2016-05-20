@@ -38,7 +38,8 @@
                                         </tr>
                                         <tr>
                                                 <td>Auditable</td> 
-                                                <td><?php echo $this->Form->input('is_auditable', array('type' => 'checkbox','label' => false)); ?></td>
+<?php if($this->request->data["QuestionSet"]["is_auditable"] == 'Y') {$is_audit_checked = "checked" ;}else { $is_audit_checked = false ;} ?>
+                                                <td><?php echo $this->Form->input('is_auditable', array('type' => 'checkbox', 'checked' => $is_audit_checked , 'label' => false)); ?></td>
                                             </tr>
     <!--                                    <tr>
                                             <td>Geo Location</td> 
