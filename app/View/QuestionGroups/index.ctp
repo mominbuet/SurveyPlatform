@@ -1,16 +1,30 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">
-            <?php echo __('Survey  Groups'); ?></h1>
-        
-        <?php echo $this->Html->link(__('Assign Survey to Group'), array('action' => 'add'), array('class' => 'btn btn-primary pull-right')); ?>
-    <!-- /.col-lg-12 -->
+        <h1 class="inner-page-heading"><?php echo __('Survey  Groups'); ?></h1>
+    </div>
 </div>
+
+<!-- <div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            <?php //echo __('Survey  Groups'); ?></h1>
+        <?php //echo $this->Html->link(__('Assign Survey to Group'), array('action' => 'add'), array('class' => 'btn btn-primary pull-right')); ?>
+</div> -->
+<div class="custom-margin-all">
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <?php echo __('All Survey Groups'); ?>                <div class="panel-body">
+                <?php //echo __('All Survey Groups'); ?>                
+               <div class="row">
+                        <div class="col-lg-3">
+                            <?php echo __('All Survey Groups'); ?>
+                        </div>
+                        <div class="col-lg-9">
+                           <?php echo $this->Html->link(__('Assign Survey to Group'), array('action' => 'add'), array('class' => 'btn btn-primary pull-right')); ?>
+                        </div>
+                    </div>
+                <div class="panel-body">
                     <div class="row">
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
@@ -68,3 +82,4 @@
     </div>
 </div>
 
+</div><!-- /.custom-margin-all -->

@@ -1,9 +1,16 @@
 <div class="row">
     <div class="col-lg-12">
+        <h1 class="inner-page-heading"><?php echo __('Question Groups'); ?></h1>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col-lg-12">
         <h1 class="page-header">
             Question Groups        </h1>
     </div>
-</div>
+</div> -->
+<div class="custom-margin-all">
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
@@ -49,3 +56,4 @@ echo "<div class=\"form-group\"> <label>is_active</label>";		echo $this->Form->i
 		<li><?php echo $this->Html->link(__('New Question Set'), array('controller' => 'question_sets', 'action' => 'add')); ?> </li>
     </ul>
 </div>
+</div><!-- /.custom-margin-all -->

@@ -24,8 +24,7 @@
         echo $this->Html->script('jquery.min');
         echo $this->Html->script('jquery-ui.min');
         echo $this->Html->script('bootstrap.min');
-        echo $this->Html->css('https://fonts.googleapis.com/css?family=Lato:400,300');
-        echo $this->Html->css('https://fonts.googleapis.com/css?family=Lora');
+
         ?>
 <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
 
@@ -52,8 +51,9 @@
 
 
 <div class="container-fluid">
-      
-          <nav class="navbar navbar-default" style="margin-bottom:0px;margin-left:-10px;">
+      <div class="row">
+        <div class="col-lg-12">
+          <nav class="navbar navbar-default">
             <div class="container-fluid">
               <!-- Brand and toggle get grouped for better mobile display -->
               <div class="navbar-header">
@@ -76,11 +76,25 @@
                 <ul class="nav navbar-nav list-hover-slide">
                   <li class="active"><a href="/CUB/Pages">Tam Tam Dashboard <span class="sr-only">(current)</span></a></li>
                   <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User Management <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                      <li><a href="/CUB/UsersQuestionData/map">Answer map</a></li>
-                      <li><a href="/CUB/Kmls/add">Kml upload</a></li>
-                      <li><a href="/CUB/Kmls">View Kmls</a></li>
+                        <li><a href="/CUB/Users">Users</a></li>
+                        <li><a href="/CUB/Groups">User Groups</a></li>
+                        <li><a href="/CUB/UserGroups">User Group Assignment</a></li>
+                        <li><a href="/CUB/Devices">Device </a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Surver Activities <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="/CUB/QuestionSets">Surveys</a></li>
+                    <?php if ($this->Session->read('Auth.User.User.superuser') == '1'): ?>
+                    <!--                                        <li><a href="/PSU/QuestionSets/Add">Add Survey</a></li>-->
+
+                    <?php endif; ?>
+                    <li><a href="/CUB/QuestionGroups">Assign Survey</a></li>
+                    <li><a href="/CUB/UsersQuestionData">User Data</a></li>
+                    <li><a href="/CUB/UsersQuestionData/auditedsurvey">Audit Reports</a></li>
                     </ul>
                   </li>
                   <li class="dropdown">
@@ -93,26 +107,20 @@
                     </ul>
                   </li>
                   <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Survey Activities <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                      <li><a href="/CUB/QuestionSets">Surveys</a></li>
-                    <?php if ($this->Session->read('Auth.User.User.superuser') == '1'): ?>
-                    <!--<li><a href="/PSU/QuestionSets/Add">Add Survey</a></li>-->
-                    <?php endif; ?>
-                    <li><a href="/CUB/QuestionGroups">Assign Survey</a></li>
-                    <li><a href="/CUB/UsersQuestionData">User Data</a></li>
-                    <li><a href="/CUB/UsersQuestionData/auditedsurvey">Audit Reports</a></li>
+                      <li><a href="/CUB/UsersQuestionData/map">Answer map</a></li>
+                      <li><a href="/CUB/Kmls/add">Kml upload</a></li>
+                      <li><a href="/CUB/Kmls">View kMLs</a></li>
                     </ul>
                   </li>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User Management <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/CUB/Users">Users</a></li>
-                        <li><a href="/CUB/Groups">User Groups</a></li>
-                        <li><a href="/CUB/UserGroups">User Group Assignment</a></li>
-                        <li><a href="/CUB/Devices">Device </a></li>
-                    </ul>
-                  </li>
+                  <?php if ($this->Session->read('Auth.User.User.superuser') == '1'): ?>
+                  <li><a href="/CUB/AndroidApps/">File Upload</a></li>
+                  <?php endif; ?>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right list-hover-slide">
+                  <?php if ($this->Session->read('Auth.User.User.superuser') == '1'): ?>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Setup data <span class="caret"></span></a>
                     <ul class="dropdown-menu dropdown-hover-style">
@@ -121,13 +129,6 @@
                         <li><a href="/CUB/SelectUnions">Union</a></li>
                     </ul>
                   </li>
-                </ul>
-
-                <ul class="nav navbar-nav navbar-right list-hover-slide">
-                  <?php if ($this->Session->read('Auth.User.User.superuser') == '1'): ?>
-                  <?php endif; ?>
-                  <?php if ($this->Session->read('Auth.User.User.superuser') == '1'): ?>
-                  <li><a href="/CUB/AndroidApps/">File Upload</a></li>
                   <?php endif; ?>
                   <li><a href="/CUB/ValidationRules/">Validation Rules</a></li>
                   <li><a href="/CUB/UserMessages/index"> Messages</a></li>
@@ -138,8 +139,10 @@
               </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
           </nav>
-            <div class="container-fluid" style="margin-top:-20px;">
-                
+        </div>
+        <div class="col-md-12">
+            <div class="container-fluid">
+                <div class="col-md-12">
             
         
 
@@ -443,13 +446,13 @@
 
             <!-- <div id="page-wrapper"> -->
                 <?= $this->Session->flash() ?>
-                
-                    <?= $this->fetch('content') ?>
-
+                <?= $this->fetch('content') ?>
             <!-- </div> -->
         <!-- </div> -->
-                
-            
+                </div>
+            </div>
+        </div>
+      </div>
     </div>
         <?php
         echo $this->Html->script('metisMenu.min');

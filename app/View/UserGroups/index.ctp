@@ -1,11 +1,16 @@
-
 <div class="row">
     <div class="col-lg-12">
+        <h1 class="inner-page-heading"><?php echo __('User Groups'); ?></h1>
+    </div>
+</div>
+
+<div class="custom-margin-all">
+<div class="row">
+    <!-- <div class="col-lg-12">
         <h1 class="page-header">
             <?php echo __('User Groups'); ?></h1>
         <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Assign User</button>
-        <!-- /.col-lg-12 -->
-    </div>
+    </div> -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -27,16 +32,26 @@
             </div>
         </div>
     </div>
+</div>
     <div class="row">
         <div class="col-lg-12">
-            <div class="panel">
+            <div class="panel panel-default">
                 <div class="panel-heading">
-                    <?php echo __('All User Groups'); ?>                <div class="panel-body">
+                    <?php //echo __('All User Groups'); ?>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <?php echo __('All User Groups'); ?>
+                        </div>
+                        <div class="col-lg-9">
+                            <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Assign User</button>
+                        </div>
+                    </div>
+                    <div class="panel-body">
                         <div class="row">
                             <table class="table table-striped table-responsive" id="dataTables-example">
                                 <thead>
                                     <tr>
-                                        <th><input type="checkbox" class="form-control" id="checkAll"  /></th>
+                                        <th><input type="checkbox" clas id="checkAll"  /></th>
                                         <th><?php echo $this->Paginator->sort('id'); ?></th>
                                         <th><?php echo $this->Paginator->sort('user_id'); ?></th>
                                         <th><?php echo $this->Paginator->sort('group_id'); ?></th>
@@ -47,7 +62,7 @@
 
                                     <?php foreach ($userGroups as $userGroup): ?>
                                         <tr>
-                                            <td><input type="checkbox" class="form-control chkUser" value="<?php echo $userGroup['User']['id'] ?>" /></td>
+                                            <td><input type="checkbox" class="chkUser" value="<?php echo $userGroup['User']['id'] ?>" /></td>
                                             <td><?php echo h($userGroup['User']['id']); ?>&nbsp;</td>
                                             <td>
                                                 <?php echo $this->Html->link($userGroup['User']['user_name'], array('controller' => 'users', 'action' => 'view', $userGroup['User']['id'])); ?>
@@ -94,7 +109,7 @@
             </div>
         </div>
     </div>
-
+</div><!--/.custom-margin-all -->
     <script>
         $(document).ready(function () {
             $("#checkAll").click(function () {

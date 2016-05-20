@@ -1,11 +1,18 @@
 <div class="row">
     <div class="col-lg-12">
+        <h1 class="inner-page-heading"><?php echo __('Groups'); ?></h1>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col-lg-12">
         <h1 class="page-header">
             <?php echo __('Groups'); ?></h1>
         <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Merge Groups</button>
-        <?php echo $this->Html->link(__("Add Groups"), array("action" => "add"), array("class" => "btn btn-info pull-right")); ?>    </div>
-    <!-- /.col-lg-12 -->
-</div>
+        <?php echo $this->Html->link(__("Add Groups"), array("action" => "add"), array("class" => "btn btn-info pull-right")); ?>    
+    </div>
+</div> -->
+
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -27,15 +34,26 @@
         </div>
     </div>
 </div>
+<div class="custom-margin-all">
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <?php echo __('All Groups'); ?>                <div class="panel-body">
+                <?php //echo __('All Groups'); ?>
+                <div class="row">
+                        <div class="col-lg-3">
+                            <?php echo __('All Groups'); ?>
+                        </div>
+                        <div class="col-lg-9">
+                            <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Merge Groups</button>
+                            <?php echo $this->Html->link(__("Add Groups"), array("action" => "add"), array("class" => "btn btn-info pull-right")); ?>
+                        </div>
+                    </div> 
+                <div class="panel-body">
                     <div class="row">
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
-                                <tr><th style="width:4%"><input type="checkbox" class="form-control" id="checkAll"  /></th>
+                                <tr><th style="width:4%"><input type="checkbox" id="checkAll"  /></th>
                                     <th><?php echo $this->Paginator->sort('group_name'); ?></th>
                                     <th>Question Sets Assigned</th>
                                     <th>Groups Assigned</th>
@@ -46,7 +64,7 @@
                             <tbody>
                                 <?php foreach ($groups as $group): ?>
                                 <tr>
-                                    <td><input type="checkbox" class="form-control chkUser" value="<?php echo $group['Group']['id'] ?>" /></td>
+                                    <td><input type="checkbox" class="chkUser" value="<?php echo $group['Group']['id'] ?>" /></td>
                                     <td><?php echo h($group['Group']['group_name']); ?>&nbsp;</td>
                                     <td><?= sizeof($group['QuestionGroup']) ?></td>
                                     <td><?= sizeof($group['UserGroup']) ?></td>
@@ -84,6 +102,7 @@
         </div>
     </div>
 </div>
+</div><!-- /.custom-margin-all -->
 <script>
     $(document).ready(function () {
         $("#checkAll").click(function () {

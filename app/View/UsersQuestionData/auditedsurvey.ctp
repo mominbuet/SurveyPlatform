@@ -58,7 +58,7 @@
 </div>
 <div class="row col-lg-12" id="example2" style="padding-left: 40px;padding-top: 5px;">
     <table class="table table-striped table-bordered table-hover" >
-        <thead><tr><th>#</th><th> Survey name saved by user</th><th>Upload Date</th><th>Audited By</th><th>Audited</th><th>Audit Date</th><th>Match (%)</th><th>Comment</th><th>Action</th></tr></thead>
+        <thead><tr><th>#</th><th> Survey name BY user</th><th>Upload Date</th><th>Audited</th><th>Audited By</th><th>Audit Date</th><th>Match (%)</th><th>Comment</th><th>Action</th></tr></thead>
         <tbody id="tbody2">
 
         </tbody>
@@ -94,14 +94,24 @@
             currtr.css('background-color','#5CB85C');
             $.getJSON(website + "UIAPI/get_audited_entries/" + $(this).attr("userid") + "/" + $(this).attr("surveyid"), function (data) {
 //                document.getElementById('togglebtn').click();
+                    console.log(data);
                 $("#tbody2").html("");
-                for (var i = 0; i < data.length; i++) {
+                /*for (var i = 0; i < data.length; i++) {
                     var obj = data[i];
                     console.log(obj);
                     $("#tbody2").append("<tr><td>"+(i+1)+"</td><td>" + obj[0].name + "</td><td>" + obj[0].time + "</td><td>" +obj.Users.uname+ "</td><td>" + obj.UserQuestionData.is_audit_done + "</td><td></td><td>" +
                             ((obj.UserQuestionData.is_audit_done == "Y") ? "" : "-") + "<td></td><td>" +
                             ((obj.UserQuestionData.is_audit_done == "Y") ?
                                     "<button class='comparative btn btn-info' flg='" + obj.UserQuestionData.id + "' data-toggle='modal' data-target='#myModal'>Comparison</button>" : "") + "</td>" + "</tr>");
+                }*/
+
+                for (var i = 0; i < data.length; i++) {
+                    var obj = data[i];
+                    console.log(obj);
+                    $("#tbody2").append("<tr><td>"+(i+1)+"</td><td>" + obj.Child_Surveys.user_survey_name+ "</td><td>" + obj.Child_Surveys.time + "</td><td>" +obj.Child_Surveys.is_audit_done+ "</td><td>" + obj.Audit_Surveys.supervisor_uname + "</td><td>"+obj.Audit_Surveys.audit_time+"</td><td>" +
+                            ((obj.Child_Surveys.is_audit_done == "Y") ? "" : "-") + "<td></td><td>" +
+                            ((obj.Child_Surveys.is_audit_done == "Y") ?
+                                    "<button class='comparative btn btn-info' flg='" + obj.Child_Surveys.user_survey_id + "' data-toggle='modal' data-target='#myModal'>Comparison</button>" : "") + "</td>" + "</tr>");
                 }
                 $("#example2").show();
                 $(".comparative").on('click', function () {

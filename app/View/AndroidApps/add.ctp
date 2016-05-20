@@ -1,14 +1,21 @@
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">
-            Upload        </h1>
+        <h1 class="inner-page-heading"><?php echo __('Upload'); ?></h1>
     </div>
 </div>
+
+<!-- <div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Upload</h1>
+    </div>
+</div> -->
+<div class="custom-margin-all">
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Add File/link               <div class="panel-body">
+                Add File/link               
+                <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
                             <?php echo $this->Form->create('AndroidApp', array('class' => 'form-horizontal', 'type' => 'file', 'role' => 'form')); ?>
@@ -46,3 +53,4 @@
         </div>
         <!-- /.row -->
     </div>
+</div><!-- /.custom-margin-all -->

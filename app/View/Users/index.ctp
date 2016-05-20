@@ -1,21 +1,43 @@
 
-<div class="row">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="inner-page-heading"><?php echo __('Users'); ?></h1>
+        </div>
+    </div>
+
+
+
+
+
+<!-- <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            <?php echo __('Users'); ?>
+            
             <?php
             echo $this->Html->link(__('Add User'), array('action' => 'add'), array('class' => 'btn btn-info pull-right'));
             ?>
         </h1>
-    </div>
+    </div> -->
     <!-- /.col-lg-12 -->
-</div>
+<!-- </div> -->
+
+<div class="custom-margin-all">
 
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <?php echo __('All Users'); ?>                <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <?php echo __('All Users'); ?>
+                    </div>
+                    <div class="col-lg-9">
+                        <?php
+                        echo $this->Html->link(__('Add User'), array('action' => 'add'), array('class' => 'btn btn-success common-button btn-sm pull-right'));
+                        ?>
+                    </div>
+                </div>
+                <div class="panel-body">
                     <div class="row">
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
@@ -81,3 +103,4 @@
     </div>
 </div>
 
+</div><!-- /.main container-->

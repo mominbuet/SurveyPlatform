@@ -3,36 +3,40 @@
         <h1 class="inner-page-heading"><?php echo __('Survey Chart'); ?></h1>
     </div>
 </div>
-
 <div class="custom-margin-all">
-    <div class="row">
-        <div class="col-lg-3">
-            <?php
-            echo $this->Form->input('survey_id', 
-                array(
-                    "options" => $surveys, 
-                    "name" => "survey_id", 
-                    "label" => "Survey Name",
-                    "empty" => 'Select Survey',
-                    "class" => 'form-control'
-                    )
-                );
-            ?>
+<div class="row panel ">
+    <div class="col-lg-12" style='padding-top: 10px;'>
+        <div class="col-lg-6 col-md-4">
+            <div class='form-group col-lg-4' > <label>Survey Name</label>
+                <?php
+                echo $this->Form->input('survey_id', array('options' => $surveys, "name" => "survey_id", 'empty' => 'Select Survey',
+                'label' => false,
+                'class' => 'form-control'));
+                ?>
+            </div>
         </div>
-        <div class="col-lg-3">
-            <label>Chart Type</label>
-            <select id="charttype" class="form-control">
-                <option value="bar">Bar</option>
-                <option value="pie">Pie</option>
-            </select>
+        <div class="col-lg-6 col-md-4">
+            <div class="form-group col-lg-4 ">
+                <label>Chart Type</label>
+                <select id="charttype" class="form-control">
+                    <option value="bar">Bar</option>
+                    <option value="pie">Pie</option>
+                </select>
+            </div>
         </div>
-        <div class="col-lg-3">
+    </div>
+</div>
+<div class="row panel ">
+    <div class="col-lg-6 col-md-4">
+        <div class='form-group col-lg-4' >
             <label>Column1</label>
-            <select id="column1" class="form-control">
+            <select id="column1" class="form-control col-lg-4">
                 <option value="">Select Survey First</option>
-            </select>
+            </select>     
         </div>
-        <div class="col-lg-3">
+    </div>
+    <div class="col-lg-6 col-md-4">
+        <div class="form-group col-lg-4 ">
             <label>Options</label>
             <select id="options" class="form-control">
                 <option value="count">Count</option>
@@ -42,33 +46,33 @@
             </select>
         </div>
     </div>
-    <div class="row row-margin">
-        <div class="col-lg-2 col-lg-offset-10">
-            <button class="pull-right btn btn-success" id="GenerateReport">Generate</button>
-        </div>
-        <!--<div class="col-lg-4">
-            <label>Column2</label>
-            <select id="column2" class="form-control">
-                <option value="">Select Survey First</option>
-            </select>
-        </div>-->
-    </div>
-    <div class="row row-margin">
-        <div class="col-lg-12">
-            <div class="">
-                <i class="fa fa-bar-chart-o fa-fw"></i> Chart
-            </div>
-            <div class="panel-body" style="display:none">
-                <div id="morris-donut-chart"></div>
-                <a href="#" class="btn btn-default btn-block">View Details</a>
-            </div>
-            <div class="panel-body">
-                <div id="high-chart" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
-                <!--<a href="#" class="btn btn-default btn-block">View Details</a>-->
-            </div>
-        </div>
-    </div>
 
+    <!--            <div class="col-lg-4">
+                    <label>Column2</label>
+                    <select id="column2" class="form-control">
+                        <option value="">Select Survey First</option>
+                    </select>
+                </div>-->
+    <button class="btn btn-success col-lg-offset-8 " id="GenerateReport">Generate</button>
+</div>
+
+
+<div class="row panel ">
+    <div class="panel panel-default col-lg-12">
+        <div class="">
+            <i class="fa fa-bar-chart-o fa-fw"></i> Chart
+        </div>
+        <div class="panel-body" style="display:none">
+            <div id="morris-donut-chart"></div>
+            <a href="#" class="btn btn-default btn-block">View Details</a>
+        </div>
+        <div class="panel-body">
+            <div id="high-chart" style="min-width: 410px; height: 400px; margin: 0 auto"></div>
+            <!--<a href="#" class="btn btn-default btn-block">View Details</a>-->
+        </div>
+        <!-- /.panel-body -->
+    </div>
+</div>
 </div><!-- /.custom-margin-all -->
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>

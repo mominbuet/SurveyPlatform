@@ -1,14 +1,21 @@
 <div class="row">
     <div class="col-lg-12">
+        <h1 class="inner-page-heading"><?php echo __('Groups'); ?></h1>
+    </div>
+</div>
+<!-- <div class="row">
+    <div class="col-lg-12">
         <h1 class="page-header">
             Groups        </h1>
     </div>
-</div>
+</div> -->
+<div class="custom-margin-all">
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Add Groups                <div class="panel-body">
+                Add Groups                
+               <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
                             <?php echo $this->Form->create('Group', array('class' => 'form-horizontal', 'role' => 'form')); ?>
@@ -36,3 +43,4 @@
     </div>
     <!-- /#page-wrapper -->
 </div>
+</div><!--/.custom-margin-all -->

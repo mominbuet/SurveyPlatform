@@ -1,4 +1,3 @@
-
 <div class="row">
     <h1>Edit question</h1>
     <div class="col-lg-12">
@@ -122,11 +121,11 @@
                                     ?>
                                     <p class="help-block">Enter the help here...</p>
                                 </div>
-                                <div class="form-group form-inline">
+                                <!--div class="form-group form-inline">
                                     <label>Required?</label>
                                     <?php echo $this->Form->input('is_ans_required', array('label' => false, 'id' => 'is_ans_required', 'class' => 'form-control')); ?>
                                     <p class="help-block">Is this field required(1 for yes)?</p>
-                                </div>
+                                </div-->
 <!--                                <div class="form-group ">
                                     <label>Question Section</label>
                                     <div class="form-inline">

@@ -13,6 +13,7 @@ echo $this->Html->script('jquery-ui.min');
     <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
+<?php //debug($questions);?>
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
@@ -28,7 +29,7 @@ echo $this->Html->script('jquery-ui.min');
                                     <th><?php echo $this->Paginator->sort('qsn_desc'); ?></th>
                                     <th><?php echo $this->Paginator->sort('qsn_type_id'); ?></th>
 <!--                                    <th><?php // echo $this->Paginator->sort('qsu_order');  ?></th>-->
-                                    <th><?php echo $this->Paginator->sort('section_name'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('section_id','Section Name'); ?></th>
                                     <th class="actions"><?php echo __('Actions'); ?></th>
                                 </tr>
                             </thead>

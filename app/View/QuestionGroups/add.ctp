@@ -1,14 +1,23 @@
 <div class="row">
     <div class="col-lg-12">
+        <h1 class="inner-page-heading"><?php echo __('Question Groups'); ?></h1>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col-lg-12">
         <h1 class="page-header">
             Question Groups        </h1>
     </div>
-</div>
+</div> -->
+
+<div class="custom-margin-all">
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Assign Question to Group                <div class="panel-body">
+                Assign Question to Group                
+               <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6">
 <?php echo $this->Form->create('QuestionGroup',array('class'=>'form-horizontal', 'role'=>'form')); ?>
@@ -36,3 +45,4 @@ echo "<div class=\"form-group\"> <label>is_active</label>";		echo $this->Form->i
     <!-- /#page-wrapper -->
 </div>
 
+</div><!-- /.custom-margin-all -->

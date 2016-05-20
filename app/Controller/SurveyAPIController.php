@@ -313,7 +313,7 @@ class SurveyAPIController extends AppController {
             $db = ConnectionManager::getDataSource('default');
 //            echo $q;
             $db->query($q);
-            $db->query('alter table pmtc_' . $survey_id . 's convert to character set utf8 collate utf8_unicode_ci;');
+//            $db->query('alter table pmtc_' . $survey_id . 's convert to character set utf8 collate utf8_unicode_ci;');
             $last_updated = $db->query("select inserted from pmtc_" . $survey_id . "s order by inserted desc limit 1; ");
             $answers = array();
             $fields = array('DISTINCT UsersQuestionData.id', 'SelectDistrict.district_name', 'UsersQuestionData.district_id',
@@ -327,18 +327,21 @@ class SurveyAPIController extends AppController {
 //                'order'=>array('UsersQuestionData.id desc'),
 //                "conditions" => array("qsn_set_master_id" => $survey_id,
 //                    )));
+//            debug($last_updated);
             if (sizeof($last_updated) == 0) {
                 $answers = $this->UsersQuestionData->find("all", array(
-                    'fields' => $fields,'limit'=>200,'offset'=>0,
+                    'fields' => $fields,'limit'=>200,'offset'=>0,'order'=>'insert_time asc',
                     "conditions" => array("qsn_set_master_id" => $survey_id)));
             } else {
                 $answers = $this->UsersQuestionData->find("all", array('recursion' => 0,
                     'fields' => $fields,'limit'=>200,'offset'=>0,
+                    'order'=>'insert_time asc',
                     "conditions" => array("qsn_set_master_id" => $survey_id,
                         'UsersQuestionData.insert_time > ' => $last_updated[0]['pmtc_' . $survey_id . 's']['inserted'])));
+//                debug($answers);
 //                
             }
-//            debug($answers);
+            
             if (sizeof($answers) != 0) {
 //                try {
                 foreach ($answers as $key => $value) {

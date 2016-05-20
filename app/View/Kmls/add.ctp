@@ -1,9 +1,17 @@
 <div class="row">
     <div class="col-lg-12">
+        <h1 class="inner-page-heading"><?php echo __('KML Upload'); ?></h1>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col-lg-12">
         <h1 class="page-header">
             KML Upload        </h1>
     </div>
-</div>
+</div> -->
+
+<div class="custom-margin-all">
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
@@ -42,3 +50,4 @@
         </div>
         <!-- /.row -->
     </div>
+</div><!-- /.custom-margin-all -->

@@ -1,15 +1,24 @@
 <div class="row">
     <div class="col-lg-12">
+        <h1 class="inner-page-heading"><?php echo __('KML Views'); ?></h1>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col-lg-12">
         <h1 class="page-header">
             KML Views        </h1>
     </div>
-</div>
+</div> -->
 <?php // debug($Kmls);?>
+
+<div class="custom-margin-all">
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <?php echo __('All Kmls'); ?>                <div class="panel-body">
+                <?php echo __('All Kmls'); ?>                
+                <div class="panel-body">
                     <div class="row">
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
@@ -68,6 +77,7 @@
 
     </div>
 </div>
+</div><!-- /.custom-margin-all -->
 <style>
     #legend {
         font-family: Arial, sans-serif;
