@@ -48,10 +48,11 @@ class UsersQuestionDataController extends AppController {
                 LEFT JOIN (SELECT user_id, count(UsersQuestionData.id) as countsurvey from pmtc_users_question_data as UsersQuestionData where is_supervisor=0 and qsn_set_master_id= $survey_id  group by user_id ) BB 
                 ON BB.user_id = User.id LEFT JOIN
                 (SELECT user_id, count(UsersQuestionData.id) as auditedsurvey  from pmtc_users_question_data as UsersQuestionData
-                    where is_audit_done = 'Y' group by user_id ) CC
+                    where is_audit_done = 'Y' and qsn_set_master_id= $survey_id group by user_id ) CC
                 ON CC.user_id = User.id 
                 where UserQuestionData.qsn_set_master_id= $survey_id ". ((($user_id))?"and UserQuestionData.user_id=$user_id":"") ." ORDER BY User.user_name ");
             $this->set("results", $qs);
+             
         } else {
 
             $this->set("results", array());

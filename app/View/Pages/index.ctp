@@ -270,7 +270,7 @@ echo $this->Html->css('timeline');
                     for (i = 0; i < inputs.data.length; i++) {
                         marker = new google.maps.Marker({
                             position: new google.maps.LatLng(inputs.data[i].UsersQuestionData.geo_lat, inputs.data[i].UsersQuestionData.geo_lon),
-                            animation: google.maps.Animation.DROP,
+//                            animation: google.maps.Animation.DROP,
                             map: map,
                             title: inputs.data[i].QuestionSet.qsn_set_name + ""
                         });
@@ -315,7 +315,7 @@ echo $this->Html->css('timeline');
         function loadScript() {
             var script = document.createElement('script');
             script.type = 'text/javascript';
-            script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp' +
+            script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyA6UbP2n-WHNIsJ_6l9C_Ooz7nfbVCP21A' +
                     '&signed_in=true&callback=initialize';
             document.body.appendChild(script);
         }

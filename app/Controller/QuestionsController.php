@@ -61,9 +61,11 @@ class QuestionsController extends AppController {
             $SelectMisc = $this->request->data['SelectMisc'];
             $this->Question->create();
 //            debug($this->request->data['Question']);
-            if ($this->request->data['Question']['validation_text2'] != '') {
-                $this->request->data['Question']['validation_text'] = $this->request->data['Question']['validation_text1'] . "," .
-                        $this->request->data['Question']['validation_text2'];
+            if (array_key_exists('validation_text2', $this->request->data['Question'])) {
+                if ($this->request->data['Question']['validation_text2'] != '') {
+                    $this->request->data['Question']['validation_text'] = $this->request->data['Question']['validation_text1'] . "," .
+                            $this->request->data['Question']['validation_text2'];
+                }
             }
 //            debug($this->request->data['Question']['rownames']);
             if ($this->Question->save($this->request->data)) {
@@ -78,19 +80,21 @@ class QuestionsController extends AppController {
                 $this->loadModel('SelectMisc');
 //                debug($this->request->data['SelectMiscNext']);
                 $i = 0;
-                
+
                 if ($this->request->data['SelectMiscNext']) {
                     foreach ($SelectMisc as $sm) {
                         if ($sm != "") {
                             $this->SelectMisc->create();
-                            if ($this->request->data['SelectMiscNext'][$i++] != '0')
+                            if ($this->request->data['SelectMiscNext'][$i] != '0')
                                 $this->SelectMisc->save(array('misc_option' => $sm,
-                                    'next_section_id' => $this->request->data['SelectMiscNext'][$i++],
-                                    'misc_option_bagnla' => $this->request->data['SelectMiscBangla'][$i++],
+                                    'next_section_id' => $this->request->data['SelectMiscNext'][$i],
+                                    'misc_option_bangla' => $this->request->data['SelectMiscBangla'][$i],
                                     'question_id' => $this->Question->id));
                             else
                                 $this->SelectMisc->save(array('misc_option' => $sm,
+                                    'misc_option_bangla' => $this->request->data['SelectMiscBangla'][$i],
                                     'question_id' => $this->Question->id));
+                            $i++;
                         }
                     }
                 }
@@ -98,6 +102,7 @@ class QuestionsController extends AppController {
 //            echo $q;
                 $db->query("drop table if EXISTS pmtc_" . $qset . 's');
                 $this->Session->setFlash(__('The question has been saved.'));
+//                debug($this->request->data);
                 return $this->redirect(array('action' => 'add', $this->request->data['Question']['qsn_set_id']));
             } else {
                 $this->Session->setFlash(__('The question could not be saved. Please, try again.'));
@@ -133,6 +138,7 @@ class QuestionsController extends AppController {
 
         $this->set(compact('questionSets', 'prev_section', 'data_array', 'qsnTypes', 'qsnSections', 'validityRules'));
     }
+
     /**
      * edit method
      *
@@ -149,7 +155,7 @@ class QuestionsController extends AppController {
             if ($this->Question->save($this->request->data)) {
                 $this->loadModel('SelectMisc');
 //                debug($this->request->data['SelectMiscNext']);
-                $i = 0; //$j=0;
+                $i = 0; $j=0;
                 if ($this->request->data['SelectMiscNext']) {
                     $this->SelectMisc->deleteAll(array('SelectMisc.question_id' => $id), false);
                     $SelectMisc = $this->request->data['SelectMisc'];
@@ -166,17 +172,19 @@ class QuestionsController extends AppController {
                             //if(!$this->request->data['SelectMiscId'][$j])
 //                            debug($this->request->data['SelectMiscBangla'][$i]);
                             $this->SelectMisc->create();
-                            if ($this->request->data['SelectMiscNext'][$i] != '0')
+//                            debug($this->request->data['SelectMiscNext']);
+                            if ($this->request->data['SelectMiscNext'][$i] != '0'){
+                                
                                 $this->SelectMisc->save(array('misc_option' => $sm,
                                     //'misc_id'=>$this->request->data['SelectMiscId'][$j],
-                                    'misc_option_bagnla' => $this->request->data['SelectMiscBangla'][$i],
+                                    'misc_option_bangla' => $this->request->data['SelectMiscBangla'][$j],
                                     'next_section_id' => $this->request->data['SelectMiscNext'][$i],
                                     'question_id' => $this->Question->id));
-                            else
+                            }else
                                 $this->SelectMisc->save(array('misc_option' => $sm,
-                                    //'misc_id'=>$this->request->data['SelectMiscId'][$j],
+                                    'misc_option_bangla' => (array_key_exists ($j, $this->request->data['SelectMiscBangla']))?$this->request->data['SelectMiscBangla'][$j]:null,
                                     'question_id' => $this->Question->id));
-                            $i++;
+                            $i++;$j++;
                         }
                     }
                 }
@@ -184,6 +192,7 @@ class QuestionsController extends AppController {
 //            echo $q;
                 $db->query("drop table if EXISTS pmtc_" . $qsn_set_id . 's');
                 $this->Session->setFlash(__('The question has been saved.'));
+//                debug($this->request->data);
                 return $this->redirect(array('action' => 'index', $qsn_set_id));
             } else {
                 $this->Session->setFlash(__('The question could not be saved. Please, try again.'));
@@ -191,7 +200,7 @@ class QuestionsController extends AppController {
         } else {
             $options = array('conditions' => array('Question.' . $this->Question->primaryKey => $id));
             $this->request->data = $this->Question->find('first', $options);
-            //debug($this->request->data);
+//            debug($this->request->data);
         }
         $qsnTypes = $this->Question->QuestionType->find('list');
         $qsnTypesAll = $this->Question->QuestionType->find('all');
@@ -213,11 +222,10 @@ class QuestionsController extends AppController {
         }
         $validityRules = $this->Question->ValidationRule->find('list');
         $this->set('setID', $qsn_set_id);
-        $this->set('validity_rule_id',
-                ($this->Question->find("all",array('conditions'=>array('Question.id'=>$id),'fields'=>array('Question.validity_rule_id'),'recursion'=>-1))));
+        $this->set('validity_rule_id', ($this->Question->find("all", array('conditions' => array('Question.id' => $id), 'fields' => array('Question.validity_rule_id'), 'recursion' => -1))));
         $this->set(compact('questionSets', 'qsnSections', 'prev_section', 'data_array', 'qsnTypes', 'validityRules'));
+//        debug(compact('questionSets', 'qsnSections', 'prev_section', 'data_array', 'qsnTypes', 'validityRules'));
     }
-
 
     /**
      * delete method

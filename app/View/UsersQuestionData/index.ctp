@@ -1,10 +1,16 @@
-<div class="row">;
+<div class="row">
     <div class="col-lg-12">
+        <h1 class="inner-page-heading"><?php echo __('Users Question Answers'); ?></h1>
+    </div>
+</div>
+
+<div class="custom-margin-all">
+<div class="row">;
+    <!-- <div class="col-lg-12">
         <h1 class="page-header">
             <?php echo __('Users Question Answers'); ?></h1>
         <?php // echo $this->Html->link(__('See Full Map'), array('action' => 'map'), array('class' => 'btn btn-primary pull-right')); ?>
-        <!-- /.col-lg-12 -->
-    </div>
+    </div> -->
     <div class="row">
         <div class="col-lg-12">
             <?php
@@ -20,7 +26,7 @@
 
             echo '</div>';
             echo "<div class='form-group col-lg-2 ' style='margin-left:20px'> <label>Is Audited</label>";
-            echo $this->Form->input('is_audited', array('default' => $is_audited,'label' => false, 'type'=>'checkbox','class' => 'form-control','div' => false));
+            echo $this->Form->input('is_audited', array('default' => $is_audited,'label' => false, 'type'=>'checkbox','class' => '','div' => false));
             echo '</div>';
             
             echo "<div class='form-group col-lg-2 ' style='margin-left:20px'> <label>Date From</label>";
@@ -130,6 +136,7 @@
     </div>
     <?php endif; ?>
 </div>
+</div><!-- /.custom-margin-all -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

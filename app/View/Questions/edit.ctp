@@ -127,7 +127,7 @@
                                     <?php echo $this->Form->input('is_ans_required', array('label' => false, 'id' => 'is_ans_required', 'class' => 'form-control')); ?>
                                     <p class="help-block">Is this field required(1 for yes)?</p>
                                 </div>
-                                <div class="form-group ">
+<!--                                <div class="form-group ">
                                     <label>Question Section</label>
                                     <div class="form-inline">
 
@@ -145,7 +145,7 @@
                                     </div>
 
                                     <p class="help-block">Please select the Section of the Question.</p>
-                                </div>
+                                </div>-->
                                 <!--                                <div class="form-group">
                                                                     <label>Question Rule</label>
                                 <?php // echo $this->Form->input('validity_rule_id', array('label' => false, 'empty' => true, 'id' => 'qsn_rules', 'class' => 'form-control')); ?>
@@ -234,13 +234,14 @@
                     $.get(website + "UIAPI/get_options_for_question_edit/" + <?php echo $this->data['Question']['id'] ?> + "/" + <?php echo $setID; ?> , function (data) {
                     $.get(website + "UIAPI/get_options_skip_for_question_edit/" + <?php echo  $this->data['Question']['id'] ?> + "/" + <?php echo $setID; ?> , function (data2) {
                     $('#txtThings').html('');
+//                    console.log(data);
                             //$('#skipThings').html('');
                             $.each(data, function (key, value) {
-                            console.log(key + ":" + value);
+                            console.log(key+" "+value.SelectMisc);
                                     elems++;
-                                    $('#txtThings').append('<input name="data[SelectMiscId][]" value="' + value + '" type="hidden"/>');
-                                    $('#txtThings').append('<div class="col-lg-5"><input value="' + value + '" placeholder="In English"  type="text" class="pull-left form-control" id ="things' + elems + '" name="data[SelectMisc][]" /></div>');
-                                    $('#txtThings').append('<div class="col-lg-5"><input value="" type="text" class="form-control" placeholder="In Bangla" id ="thingsbd' + elems + '" name="data[SelectMiscBangla][]" /></div>');
+                                    $('#txtThings').append('<input name="data[SelectMiscId][]" value="' + value.SelectMisc.misc_id + '" type="hidden"/>');
+                                    $('#txtThings').append('<div class="col-lg-5"><input value="' + value.SelectMisc.misc_option + '" placeholder="In English"  type="text" class="pull-left form-control" id ="things' + elems + '" name="data[SelectMisc][]" /></div>');
+                                    $('#txtThings').append('<div class="col-lg-5"><input value="'+value.SelectMisc.misc_option_bangla+'" type="text" class="form-control" placeholder="In Bangla" id ="thingsbd' + elems + '" name="data[SelectMiscBangla][]" /></div>');
                                     if (elems > 1)
                                     $('#skipThings').append($("#QuestionNextSectionId")[0].outerHTML);
                                     if (isNumeric(data2[key]))

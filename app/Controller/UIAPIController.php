@@ -15,9 +15,23 @@ class UIAPIController extends AppController {
     public function get_audited_entries($userid = null, $surveyid = null) {
         if ($userid && $surveyid) {
             $this->loadModel("UsersQuestionData");
-            $qs = $this->UsersQuestionData->query(" SELECT id,IFNULL(visible_name_by_user,'-') as name,is_audit_done,DATE_FORMAT(insert_time,'%b %d %Y %h:%i %p') as time FROM pmtc_users_question_data UserQuestionData where qsn_set_master_id = $surveyid and user_id=$userid");
+            $qs = $this->UsersQuestionData->query("SELECT IFNULL(visible_name_by_user,'-') as name,UserQuestionData.id,Users.user_name as uname, is_audit_done,DATE_FORMAT(insert_time,'%b %d %Y %h:%i %p') as time "
+                    . "FROM pmtc_users_question_data UserQuestionData"
+                    . " Inner join pmtc_users Users on Users.id = UserQuestionData.user_id "
+                    . " where qsn_set_master_id = $surveyid and user_id=$userid");
             echo json_encode($qs);
         }
+    }
+
+    public function get_kml_heads($kml_id) {
+
+        $this->loadModel('Kml');
+        if ($kml_id!=0)
+            $options = array('recursive' => -1, 'conditions' => array("Kml.parent_id = $kml_id")); //    
+        else
+            $options = array('recursive' => -1, 'conditions' => array('Kml.parent_id is null')); //
+        $ans = $this->Kml->find('all', $options);
+        echo json_encode($ans);
     }
 
     public function get_kml_child($id = null) {
@@ -209,7 +223,7 @@ class UIAPIController extends AppController {
     public function get_options_for_question_edit($questionID = null) {
         if ($questionID) {
             $this->loadModel('SelectMisc');
-            echo json_encode($this->SelectMisc->find('list', array('conditions' => array('question_id' => $questionID))));
+            echo json_encode($this->SelectMisc->find('all', array('recursive'=>-1,'conditions' => array('question_id' => $questionID))));
         }
     }
 

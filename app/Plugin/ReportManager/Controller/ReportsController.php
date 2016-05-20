@@ -201,7 +201,7 @@ class ReportsController extends AppController {
             $this->Session->setFlash(__('Please select a model or a saved report'));
             $this->redirect(array('action' => 'index'));
         }
-
+        $this->loadModel("Question");
 
         $reportAction = $param1;
         $modelClass = null;
@@ -284,10 +284,21 @@ class ReportsController extends AppController {
                 }
             }
 //debug($param3);
+            $questions = $this->Question->find("list", array(
+                "fields" => array(($param3 == '0') ? "qsn_desc" : "qsn_desc_bangla"),
+                "conditions" => array("qsn_set_id" => substr($param2, 0, strlen($param2) - 1))));
             $this->set('modelClass', $modelClass);
-            
+            $questionsText = array();
 //            debug($modelSchema);
+            foreach ($modelSchema as $key => $val) {
+                if (is_numeric($key)) {
+                    $questionsText[$key] = $questions[$key] ;
+                }else
+                    $questionsText[$key]=substr($param2, 0, strlen($param2)).$key;
+            }
+//            debug($questionsText);
             $this->set('modelSchema', $modelSchema);
+            $this->set('questionsText', $questionsText);
             $this->set('associatedModels', $associatedModels);
             $this->set('associatedModelsSchema', $associatedModelsSchema);
             $this->set('oneToManyOption', $oneToManyOption);
@@ -305,7 +316,7 @@ class ReportsController extends AppController {
              */
             $this->loadModel($modelClass);
             $associatedModels = $this->{$modelClass}->getAssociated();
-            $oneToManyOption = $this->data['Report']['OneToManyOption'];
+            $oneToManyOption = $this->data['Report']['OneToManyOption'];//($this->data['Report']['OneToManyOption']!=null)?$this->data['Report']['OneToManyOption']:array();
 
             $fieldsList = array();
             $fieldsPosition = array();
@@ -326,8 +337,10 @@ class ReportsController extends AppController {
                 if (is_array($fields)) {
                     foreach ($fields as $field => $parameters) {
 
-                        if (is_array($parameters)) {
 
+                        if (is_array($parameters)) {
+                            if (!array_key_exists('Example', $parameters))
+                                $parameters['Example'] = '';
                             if ((isset($associatedModels[$model]) &&
                                     $associatedModels[$model] != 'hasMany') ||
                                     ($modelClass == $model) || (is_numeric($modelClass))
@@ -440,14 +453,13 @@ class ReportsController extends AppController {
             $this->set('tableWidth', $tableWidth);
 //            ini_set('max_execution_time',300 ); 
 //            ini_set('memory_limit', '256M');
-            $this->loadModel("Question");
 //            debug(sizeof($fieldsList));
             if ($param3 == 0 || $param3 == 1) {
-                
+
                 $questions = $this->Question->find("list", array(
-                            "fields"=>array(($param3=='0')?"qsn_desc":"qsn_desc_bangla"),
-                            "conditions" => array("qsn_set_id" => substr($param2, 0, strlen($param2)-1))));
-                 $this->set('questions', $questions);
+                    "fields" => array(($param3 == '0') ? "qsn_desc" : "qsn_desc_bangla"),
+                    "conditions" => array("qsn_set_id" => substr($param2, 0, strlen($param2) - 1))));
+                $this->set('questions', $questions);
 //                debug(($questions));
 //                for ($quesKey =12;$quesKey<sizeof($fieldsList);$quesKey++) {
 ////                    debug($quesKey);
@@ -469,7 +481,7 @@ class ReportsController extends AppController {
             $this->set('fieldsType', $fieldsType);
             $this->set('fieldsLength', $fieldsLength);
             $this->set('reportData', $reportData);
-            $this->set('reportName', $this->data['Report']['ReportName']);
+            $this->set('reportName', "Report");
             $this->set('reportStyle', $this->data['Report']['Style']);
             $this->set('showRecordCounter', $this->data['Report']['ShowRecordCounter']);
 

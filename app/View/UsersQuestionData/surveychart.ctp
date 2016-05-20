@@ -1,3 +1,9 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="inner-page-heading"><?php echo __('Survey Chart'); ?></h1>
+    </div>
+</div>
+<div class="custom-margin-all">
 <div class="row panel ">
     <div class="col-lg-12" style='padding-top: 10px;'>
         <div class="col-lg-6 col-md-4">
@@ -67,6 +73,7 @@
         <!-- /.panel-body -->
     </div>
 </div>
+</div><!-- /.custom-margin-all -->
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <?php

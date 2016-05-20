@@ -3,7 +3,6 @@
     <div class="col-lg-12">
         <h1 class="page-header">New <?= ($is_survey == 1) ? "survey" : "folder"; ?> under <?= $parentID['QuestionSet']['qsn_set_name']; ?></h1>
     </div>
-    <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
 <div class="row">
@@ -34,11 +33,11 @@
                                     <?php echo $this->Form->input('master_id', array('options'=>$master_id,'empty'=>'Please select if you want to import all questions','label' => false, 'class' => 'form-control ')); ?>
                                     <p class="help-block">Enter the master question set name here</p>
                                 </div>
-                                <div class="form-group">
+<!--                                <div class="form-group">
                                     <label>Version</label>
                                     <?php echo $this->Form->input('version', array('label' => false, 'class' => 'form-control ')); ?>
                                     <p class="help-block">Enter the version name here...</p>
-                                </div>
+                                </div>-->
                                     <div class="form-group">
                                         <table class="table">
                                             <tr>
@@ -46,8 +45,8 @@
                                                 <td><?php echo $this->Form->input('is_active', array('type' => 'checkbox', 'label' => false)); ?></td>
                                             </tr>
                                             <tr>
-                                                <td>Autitable</td> 
-                                                <td><?php echo $this->Form->input('is_auditable', array('type' => 'checkbox','checked'=>true,'label' => false)); ?></td>
+                                                <td>Auditable</td> 
+                                                <td><?php echo $this->Form->input('is_auditable', array('type' => 'checkbox','checked'=>false,'label' => false)); ?></td>
                                             </tr>
                                             <tr>
                                                 <td>Geo Location</td> 

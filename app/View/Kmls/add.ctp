@@ -18,10 +18,13 @@
                             echo "<div class=\"form-group\"> <label>Menu Name</label>";
                             echo $this->Form->input('name', array('label' => false, 'class' => 'form-control', 'type' => 'text'));
                             echo '</div>';
+                            echo "<div class=\"form-group\"> <label>Link</label>";
+                            echo $this->Form->input('link', array('label' => false, 'class' => 'form-control', 'type' => 'text'));
+                            echo '</div>';
                             echo "<div class=\"form-group\"> <label>Parent Name</label>";
                             echo $this->Form->input('parent_id', array('label' => false,'options'=>$kmls, 'class' => 'form-control','empty' => 'Select Parent'));
                             echo '</div>';
-                            echo "<div class=\"form-group\"> <label>File</label>";
+                            echo "<div class=\"form-group\"> <label>File(not necessary)</label>";
                             echo $this->Form->input('kml', array('label' => false, 'type' => 'file',));
                             echo '</div>';
                             ?>

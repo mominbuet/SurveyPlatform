@@ -17,6 +17,7 @@
                                     <th><?php echo $this->Paginator->sort('id'); ?></th>
                                     <th><?php echo $this->Paginator->sort('name'); ?></th>
                                     <th><?php echo $this->Paginator->sort('Parent'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('link'); ?></th>
                                     <th><?php echo $this->Paginator->sort('File'); ?></th>
                                     <th><?php echo $this->Paginator->sort('inserted'); ?></th>
                                     <th><?php echo $this->Paginator->sort('Inserted By'); ?></th>
@@ -29,7 +30,8 @@
                                     <td><?php echo h($device['Kml']['id']); ?>&nbsp;</td>
                                     <td><?php echo h($device['Kml']['name']); ?>&nbsp;</td>
                                     <td><?php echo h($device['ParentKml']['name']); ?>&nbsp;</td>
-                                    <td><button onclick="viewKML('<?php echo $device['Kml']['file_location']; ?>','<?php echo $device['Kml']['id']; ?>');" class="btn btn-info">View</button> &nbsp;</td>
+                                    <td><a href="<?php echo ($device['ParentKml']['link']); ?>" target="_blank">Link</a>&nbsp;</td>
+                                    <td><button onclick="viewKML('<?php echo $device['Kml']['file_location']; ?>', '<?php echo $device['Kml']['id']; ?>', '<?php echo $device['Kml']['link']; ?>');" class="btn btn-info">View</button> &nbsp;</td>
                                     <td><?php echo h($device['Kml']['inserted']); ?>&nbsp;</td>    
                                     <td><?php echo h($device['User']['first_name']) . ' ' . h($device['User']['last_name']); ?>&nbsp;</td>
                                     <td class="actions">
@@ -67,58 +69,60 @@
     </div>
 </div>
 <style>
-  #legend {
+    #legend {
         font-family: Arial, sans-serif;
         background: #fff;
         padding: 10px;
         margin: 10px;
         border: 1px solid #000;
-  }
+    }
 </style>
 <script type="text/javascript">
-    var map ;
-    $(document).ready(function() {
-       $('.kmlchild').change(function() {
-           var thiselem = $(this);
-            if(thiselem.is(":checked")) {
+    var map;
+    $(document).ready(function () {
+        $('.kmlchild').change(function () {
+            var thiselem = $(this);
+            if (thiselem.is(":checked")) {
                 var ctaLayer = new google.maps.KmlLayer({
-                    url: website + 'UIAPI/get_kml/'+thiselem.attr('info'),
+//                    url: website + 'UIAPI/get_kml/' + thiselem.attr('info'),
+                    url: thiselem.attr('info'),
                     map: map
                 });
             }
         });
     });
-    function viewKML(filelocation,kmlid) {
+    function viewKML(filelocation, kmlid,link) {
         var legend = document.getElementById('legend');
-        $.getJSON(website + "UIAPI/get_kml_child/" +kmlid, function (data) {
+        $.getJSON(website + "UIAPI/get_kml_child/" + kmlid, function (data) {
 //            console.log(data);
 
-                            
-            for(var i = 0; i < data.length; i++) {
+
+            for (var i = 0; i < data.length; i++) {
                 var obj = data[i];
                 console.log(obj.Kml.name);
                 var div = document.createElement('div');
-                div.innerHTML = '<input type="checkbox" class="kmlchild" info="'+obj.Kml.file_location+'"> &nbsp;&nbsp; '+obj.Kml.name+'</input> ';
+                div.innerHTML = '<input type="checkbox" class="kmlchild" info="' + obj.Kml.link + '"> &nbsp;&nbsp; ' + obj.Kml.name + '</input> ';
                 legend.appendChild(div);
             }
-            
+
         });
-        console.log("http://dflbd.com"+website + 'UIAPI/get_kml/'+filelocation);
+        console.log(link);
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 9,
-//            center: {lat: 24.4362706, lng: 89.7367567}
-            center: {lat:41.876, lng: -87.624}
+            center: {lat: 24.4362706, lng: 89.7367567}
+//            center: {lat:41.876, lng: -87.624}
 //center: {lat: 49.496675, lng: -102.65625}
         });
- map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('legend'));
+        map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('legend'));
         var ctaLayer = new google.maps.KmlLayer({
-            url: "http://dflbd.com"+website + 'UIAPI/get_kml/'+filelocation,
+//            url: "http://dflbd.com" +website + 'uploads/Kml/' + kmlid + "/" + filelocation,
+            url:link,
 //            url: 'http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml',
-    map: map,
-     preserveViewport: true,
+            map: map,
+            preserveViewport: true,
 //url:'http://api.flickr.com/services/feeds/geo/C?g=322338@N20&lang=en-us&format=feed-georss'
         });
-        
+
         console.log(ctaLayer);
 //        ctaLayer.setMap(map);
     }

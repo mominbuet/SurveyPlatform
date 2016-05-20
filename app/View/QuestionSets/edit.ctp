@@ -37,7 +37,7 @@
                                             <td><?php echo $this->Form->input('is_active', array('type' => 'checkbox', 'label' => false)); ?></td>
                                         </tr>
                                         <tr>
-                                                <td>Autitable</td> 
+                                                <td>Auditable</td> 
                                                 <td><?php echo $this->Form->input('is_auditable', array('type' => 'checkbox','label' => false)); ?></td>
                                             </tr>
     <!--                                    <tr>

@@ -48,7 +48,7 @@
         <?php  
         echo $this->Element('fields_dnd_table_header',array(
             'plugin'=>'ReportManager',
-            'title'=>__d('report_manager','Report Manager'),
+            'title'=>__d('report_manager','Report Manager for CUB'),
             'sortableClass'=>'sortable1'));
         
         if ( isset($this->data[$modelClass]) ) // load from file

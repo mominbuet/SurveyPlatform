@@ -104,6 +104,7 @@ class SurveyAPIController extends AppController {
                 $newVal = "";
 //                $values=;
                 foreach (explode(" ", $value) as $val) {
+                    debug($val);
                     $newVal.= strtoupper($val[0]) + substr($val, 1, strlen($val));
                 }
                 $value = $newVal;
@@ -328,11 +329,11 @@ class SurveyAPIController extends AppController {
 //                    )));
             if (sizeof($last_updated) == 0) {
                 $answers = $this->UsersQuestionData->find("all", array(
-                    'fields' => $fields,
+                    'fields' => $fields,'limit'=>200,'offset'=>0,
                     "conditions" => array("qsn_set_master_id" => $survey_id)));
             } else {
                 $answers = $this->UsersQuestionData->find("all", array('recursion' => 0,
-                    'fields' => $fields,
+                    'fields' => $fields,'limit'=>200,'offset'=>0,
                     "conditions" => array("qsn_set_master_id" => $survey_id,
                         'UsersQuestionData.insert_time > ' => $last_updated[0]['pmtc_' . $survey_id . 's']['inserted'])));
 //                
@@ -524,14 +525,14 @@ class SurveyAPIController extends AppController {
 
     public function get_image_id($id = null) {
         if ($id) {
-            $this->loadModel('UsersQuestionData');
-            $this->UsersQuestionData->recursive = -1;
-            $options = array('fields' => array('image_url'),
-                'conditions' => array('UsersQuestionData.' . $this->UsersQuestionData->primaryKey => $id));
-            $track_here = $this->UsersQuestionData->find('first', $options);
+            $this->loadModel('QuestionAnswer');
+            $this->QuestionAnswer->recursive = -1;
+            $options = array('fields' => array('qsn_answer'),
+                'conditions' => array('QuestionAnswer.' . $this->QuestionAnswer->primaryKey => $id));
+            $track_here = $this->QuestionAnswer->find('first', $options);
 //debug($track_here);
             $path = UPLOADS . $this->
-                    UsersQuestionData->alias . DS . $id . DS . $track_here['UsersQuestionData']['image_url'];
+                    QuestionAnswer->alias . DS . $id . DS . $track_here['QuestionAnswer']['qsn_answer'];
 
             $this->response->file($path);
             return $this->response;

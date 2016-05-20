@@ -28,13 +28,17 @@ echo $this->Html->script('jquery-ui.min');
                                     <th><?php echo $this->Paginator->sort('qsn_desc'); ?></th>
                                     <th><?php echo $this->Paginator->sort('qsn_type_id'); ?></th>
 <!--                                    <th><?php // echo $this->Paginator->sort('qsu_order');  ?></th>-->
-                                    <th>Section</th>
+                                    <th><?php echo $this->Paginator->sort('section_name'); ?></th>
                                     <th class="actions"><?php echo __('Actions'); ?></th>
                                 </tr>
                             </thead>
                             <tbody id="sortable">
-                                <?php $i = 1;
+                                <?php $i = 1; $section_name = $questions[0]['QuestionSection']['section_name'] ;
                                 foreach ($questions as $question):
+                                if ($section_name!=$question['QuestionSection']['section_name']):
+                                    $i=1;
+                                    $section_name=$question['QuestionSection']['section_name'];
+                                    endif;
                                     ?>
                                     <tr flag="<?php echo $question['Question']['id']; ?>">
                                         <td><i class="fa fa-bars"><?php echo $i++; ?> &nbsp;</i></td>

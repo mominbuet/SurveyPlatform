@@ -1,5 +1,11 @@
 <div class="row">
     <div class="col-lg-12">
+        <h1 class="inner-page-heading"><?php echo __('Map'); ?></h1>
+    </div>
+</div>
+<div class="custom-margin-all">
+<div class="row" style="padding-top: 60px">
+    <div class="col-lg-12">
 
         <div class="col-lg-4 col-md-4">
             <label>Select Survey </label>
@@ -11,7 +17,7 @@
             'class' => 'form-control'));
             ?>
         </div>
-        <div class="col-lg-4  col-md-4 pull-right">
+        <div class="col-lg-4  col-md-4">
             <label>Select User </label>
             <?php
             echo $this->Form->input('user_id', array('default' => $set_user,
@@ -50,21 +56,25 @@
         <!-- /.col-lg-12 -->
     </div>
 </div>
-<div class="row">
+<div class="row" style="margin-bottom:15px;">
     <div class="col-lg-12">
-        <div class="pull-right"><button id="btnSubmit" class="btn btn-primary">Submit</button></div>
+        <div class="col-lg-offset-6"><button id="btnSubmit" class="btn btn-primary">Submit</button></div>
     </div>  
 </div>
 
 <?php // debug($usersQuestionData); ?>
-<div id="legend">
+<div id="legend" class="legend">
+</div>
+<div id="kml" class="legend">
 </div>
 <div class="col-lg-12">
     <div id="map-canvas" style="width: 100%;height:800px;margin: 0px;padding: 10px;margin-bottom:2% /* position: absolute */ ">
         
     </div>
+</div>
+</div><!-- /.custom-margin-all -->
 <style>
-  #legend {
+  .legend {
         font-family: Arial, sans-serif;
         background: #fff;
         padding: 10px;
@@ -74,9 +84,10 @@
 </style>
 
 <script>
-
+var map ;
     var inputs = <?php echo json_encode($usersQuestionData); ?> ;
             $(document).ready(function () {
+                
         function getUsers(user) {
 
             if ($("#survey_id").val() != 0) {
@@ -125,8 +136,9 @@
                 alert("Please select a Survey first.");
         });
         if ($("#survey_id").val() != 0) {
-                $.get(website + "UIAPI/getQuestionsOnlyMultiple/" +
-                        $("#survey_id").val(), function (data) {
+           
+            $.get(website + "UIAPI/getQuestionsOnlyMultiple/" +
+                    $("#survey_id").val(), function (data) {
                     $('#question_id').html(data);
                     var question = <?php echo $set_question;?>;
                     if (question !== 0) {
@@ -179,9 +191,34 @@
             }
 //            center: new google.maps.LatLng(23.7806365, 90.4193257)
         };
-        var map = new google.maps.Map(document.getElementById('map-canvas'),
+        map = new google.maps.Map(document.getElementById('map-canvas'),
                 mapOptions);
-        
+         $.getJSON(website + "UIAPI/get_kml_heads/0", function (data) {
+                var kml = document.getElementById('kml');
+                
+                for (var i = 0; i < data.length; i++) {
+                    var obj = data[i];
+//                    console.log(obj.Kml.name);
+                    var div = document.createElement('div');
+                    div.innerHTML=  '<input type="checkbox" class="kmlchild" info="' + obj.Kml.link + '"> &nbsp;&nbsp; ' + obj.Kml.name + '</input> ';
+                    recursiveKMLAdd(obj.Kml.id,10,div);
+                    
+                    kml.appendChild(div);
+                    
+                    $('.kmlchild').change(function () {
+                        var thiselem = $(this);
+                        if (thiselem.is(":checked")) {
+//                            console.log(thiselem.attr('link'));
+                            var ctaLayer = new google.maps.KmlLayer({
+            //                    url: website + 'UIAPI/get_kml/' + thiselem.attr('info'),
+                                url: thiselem.attr('info'),
+                                map: map
+                            });
+                        }
+                    });
+                }
+            });
+            map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('kml'));
 //        for (i = 0; i < locations.length; i++) {
 //            marker = new google.maps.Marker({
 //                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
@@ -223,7 +260,7 @@
                             div.innerHTML = '<span style="background-color:red;"> &nbsp;&nbsp;&nbsp;';
                             div.innerHTML += '</span> <span> অনির্দিষ্ট</span> ';
                             legend.appendChild(div);
-        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('legend'));
+        map.controls[google.maps.ControlPosition.LEFT_TOP].push(document.getElementById('legend'));
 //        colorMap.forEach(function(value, key) {
 //            console.log(key + " = " + value);
 //          }, colorMap)
@@ -262,7 +299,7 @@
 //                                    items.push("<p>" + val +" : "+ "</p>");
                                     contentString += "<tr><td>" + val.Question.qsn_desc + ":</td><td> " +
                                             ((val.QuestionAnswer.qsn_answer.lastIndexOf("image/") > -1) ?
-                                                    '<img width="100" src="/CUB/SurveyAPI/get_image_answer_id/' + val.QuestionAnswer.qsn_answer + '"/>'
+                                                    '<img width="100" src="/CUB/SurveyAPI/get_image_id/' + val.QuestionAnswer.qsn_answer + '"/>'
                                                     : val.QuestionAnswer.qsn_answer)
                                             + "</td></tr>";
 
@@ -285,11 +322,27 @@
 //        var mcOptions = {gridSize: 50, maxZoom: 15};
 //        var markerCluster = new MarkerClusterer(map, markers, mcOptions);
     }
-
+    function recursiveKMLAdd(kmlid,padding,div){
+        
+        $.getJSON(website + "UIAPI/get_kml_heads/"+kmlid, function (data2) {
+//            if(data2.length!==0){
+                for (var i = 0; i < data2.length; i++) {
+                    div.innerHTML += '<div style=\"padding-left:'+padding+'px;"><input type="checkbox"  class="kmlchild" info="' + data2[i].Kml.link +
+                            '"> &nbsp;&nbsp; ' + data2[i].Kml.name + '</input> </div>';
+                    
+                    recursiveKMLAdd(data2[i].Kml.id,padding+10,div);
+                    
+                }
+                
+//            }
+//            console.log(div);
+//            return div;
+        });
+    }
     function loadScript() {
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp' +
+        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyA6UbP2n-WHNIsJ_6l9C_Ooz7nfbVCP21A' +
                 '&signed_in=true&callback=initialize';
         document.body.appendChild(script);
     }

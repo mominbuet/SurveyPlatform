@@ -1,4 +1,4 @@
-    
+
 <?php
 
 foreach ($modelSchema as $field => $attributes):
@@ -11,11 +11,14 @@ foreach ($modelSchema as $field => $attributes):
     echo $this->Form->checkbox($modelClass . '.' . $field . '.' . 'Add', array('hiddenField' => true, 'checked' => $modelFieldAdd));
     echo '</td>';
     echo '<td>';
-    echo '<b><span class="checkAll">' . $modelClass . '</span></b>';
+    echo '<b><span class="checkAll"></span></b>';
 
-    echo ( isset($labelFieldList[$modelClass][$field]) ? $labelFieldList[$modelClass][$field] : ( isset($labelFieldList['*'][$field]) ? $labelFieldList['*'][$field] : $field ));
+    $tst= ( isset($labelFieldList[$modelClass][$field]) ? $labelFieldList[$modelClass][$field] : ( isset($labelFieldList['*'][$field]) ? $labelFieldList['*'][$field] : $field ));
+   echo $tst;
     echo '</td>';
     echo '<td>';
+    echo ($questionsText[$field]);
+    echo '</td><td>';
     echo $this->Form->input($modelClass . '.' . $field . '.' . 'Position', array('type' => 'text', 'disabled' => 'disabled', 'label' => false, 'size' => '4', 'maxlength' => '4', 'class' => 'position'));
     $currType = ( isset($attributes['type']) ? $attributes['type'] : $attributes['Type'] );
     echo $this->Form->input($modelClass . '.' . $field . '.' . 'Type', array('type' => 'hidden', 'value' => $currType));

@@ -60,12 +60,12 @@ class QuestionSetsController extends AppController {
                     )
                 ),
 //                'order' => array('parent_id', 'is_survey'),
-                'order' => array('id'=>'desc'),
+                'order' => array('QuestionSet.id' => 'desc'),
                 'conditions' => array('User.id' => $this->Session->read('Auth.User.User.id'),
                     'QuestionSet.is_active' => 1),
                 'fields' => array('DISTINCT QuestionSet.id', 'is_survey', 'QuestionSet.qsn_set_name', 'QuestionSet.parent_id')));
         } else {
-            $allData = $this->QuestionSet->find("all", array('order' => array('parent_id', 'is_survey'),
+            $allData = $this->QuestionSet->find("all", array('order' => array('parent_id' => 'asc', 'is_survey'),
                 'conditions' => array('QuestionSet.is_active' => 1),
                 'fields' => array('DISTINCT QuestionSet.id', 'is_survey', 'QuestionSet.qsn_set_name', 'QuestionSet.parent_id')));
         }
@@ -115,6 +115,8 @@ class QuestionSetsController extends AppController {
      */
     public function add($type = null, $parentId = null) {
         if ($this->request->is('post')) {
+//                debug($this->request->data);
+//            if (array_key_exists('master_id', $this->request->data)) {
             $this->QuestionSet->create();
             $this->QuestionSet->set('owner', $this->Session->read('Auth.User.User.id'));
             if ($this->QuestionSet->save($this->request->data)) {
@@ -129,25 +131,26 @@ class QuestionSetsController extends AppController {
                     $this->loadModel('Question');
 
 //                    debug($this->request->data['master_id']) ; 
-                    $questions_previous = $this->Question->find("all", array('recursive' => -1,
-                        'conditions' => array('qsn_set_id' => $this->request->data['master_id'])));
+                    if (array_key_exists('master_id', $this->request->data)) {
+                        $questions_previous = $this->Question->find("all", array('recursive' => -1,
+                            'conditions' => array('qsn_set_id' => $this->request->data['master_id'])));
 //                    debug($questions_previous);
-                    foreach ($questions_previous as $key => $value) {
-                        $this->Question->create();
-                        $this->Question->save(array('qsn_set_id' => $this->QuestionSet->id,
-                            'qsn_desc' => $value['Question']['qsn_desc'],
-                            'qsn_type_id' => $value['Question']['qsn_type_id'],
-                            'is_ans_required' => $value['Question']['is_ans_required'],
-                            'validity_rule_id' => $value['Question']['validity_rule_id'],
-                            'qsu_order' => $value['Question']['qsu_order'],
-                            'qsn_help' => $value['Question']['qsn_help'],
-                            'validation_text' => $value['Question']['validation_text'],
-                            'validation_error_text' => $value['Question']['validation_error_text'],
-                            'section_id' => $value['Question']['section_id'],
-                            'section_name' => $value['Question']['section_name'],
-                            'answer_length' => $value['Question']['answer_length']));
+                        foreach ($questions_previous as $key => $value) {
+                            $this->Question->create();
+                            $this->Question->save(array('qsn_set_id' => $this->QuestionSet->id,
+                                'qsn_desc' => $value['Question']['qsn_desc'],
+                                'qsn_type_id' => $value['Question']['qsn_type_id'],
+                                'is_ans_required' => $value['Question']['is_ans_required'],
+                                'validity_rule_id' => $value['Question']['validity_rule_id'],
+                                'qsu_order' => $value['Question']['qsu_order'],
+                                'qsn_help' => $value['Question']['qsn_help'],
+                                'validation_text' => $value['Question']['validation_text'],
+                                'validation_error_text' => $value['Question']['validation_error_text'],
+                                'section_id' => $value['Question']['section_id'],
+                                'section_name' => $value['Question']['section_name'],
+                                'answer_length' => $value['Question']['answer_length']));
+                        }
                     }
-
 
                     $this->loadModel('UserHistory');
                     $this->UserHistory->create();
@@ -158,14 +161,19 @@ class QuestionSetsController extends AppController {
                         'user_event' => 'Added Question Set',
                     ));
                     $this->Session->setFlash(__('The question set has been saved.'));
-                    return $this->redirect(array('action' => 'index'));
+                    return $this->redirect(array('controller' => 'QuestionSets', 'action' => 'index'));
                 } else {
                     $this->Session->setFlash(__('The privileges could not be saved. Contact Admin to assign the survey.'));
                 }
-            } else {
-                $this->Session->setFlash(__('The question set could not be saved. Please, try again.'));
             }
+//                else {
+//
+//                    return $this->redirect(array('controller'=>'QuestionSets','action' => 'index'));
+//                }
+        } else {
+            $this->Session->setFlash(__('The question set could not be saved. Please, try again.'));
         }
+
         $this->QuestionSet->recursive = -1;
         $this->set('is_survey', $type);
         $this->set('master_id', $this->QuestionSet->find('list', array('fields' => 'QuestionSet.id,QuestionSet.qsn_set_name',

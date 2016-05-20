@@ -17,6 +17,7 @@
         echo $this->Html->css('font-awesome.min');
         echo $this->Html->css('sb-admin-2');
         echo $this->Html->css('metisMenu');
+        echo $this->Html->css('custom_styles');
         
         echo $this->Html->css('simonstyle');
 
@@ -45,11 +46,107 @@
                 },
                 success: function () {
                 }
-            });</script>
-        <div id="wrapper">
+            });
+        </script>
+
+
+<div class="container-fluid">
+      
+          <nav class="navbar navbar-default" style="margin-bottom:0px;">
+            <div class="container-fluid">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-brand">
+                    
+                </div>
+                <?php echo $this->Html->image('Online-logo-hi-res.jpg',array('class'=>'common-image-style-one'))?>
+                    <?php echo $this->Html->image('logo-cordaid-big.png',array('class'=>'common-image-style-two'))?>
+                    <?php echo $this->Html->image('rimes_logo.png',array('class'=>'common-image-style-three'))?>
+              </div>
+
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav list-hover-slide">
+                  <li class="active"><a href="/CUB/Pages">Tam Tam Dashboard <span class="sr-only">(current)</span></a></li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User Management <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/CUB/Users">Users</a></li>
+                        <li><a href="/CUB/Groups">User Groups</a></li>
+                        <li><a href="/CUB/UserGroups">User Group Assignment</a></li>
+                        <li><a href="/CUB/Devices">Device </a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Surver Activities <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="/CUB/QuestionSets">Surveys</a></li>
+                    <?php if ($this->Session->read('Auth.User.User.superuser') == '1'): ?>
+                    <!--                                        <li><a href="/PSU/QuestionSets/Add">Add Survey</a></li>-->
+
+                    <?php endif; ?>
+                    <li><a href="/CUB/QuestionGroups">Assign Survey</a></li>
+                    <li><a href="/CUB/UsersQuestionData">User Data</a></li>
+                    <li><a href="/CUB/UsersQuestionData/auditedsurvey">Audit Reports</a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/CUB/UsersQuestionData/summaryreport">Report on Survey</a></li>
+                        <!--<li><a href="/PSU/UsersQuestionData/chartreport">Pie Chart Report</a></li>-->
+                        <li><a href="/CUB/UsersQuestionData/surveychart">Survey Chart</a></li>
+
+                    </ul>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="/CUB/UsersQuestionData/map">Answer map</a></li>
+                      <li><a href="/CUB/Kmls/add">Kml upload</a></li>
+                      <li><a href="/CUB/Kmls">View Kmls</a></li>
+                    </ul>
+                  </li>
+                  <?php if ($this->Session->read('Auth.User.User.superuser') == '1'): ?>
+                  <li><a href="/CUB/AndroidApps/">File Upload</a></li>
+                  <?php endif; ?>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right list-hover-slide">
+                  <?php if ($this->Session->read('Auth.User.User.superuser') == '1'): ?>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Setup data <span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-hover-style">
+                        <li><a href="/CUB/SelectDistricts">District</a></li>
+                        <li><a href="/CUB/SelectUpzillas">Upzilla</a></li>
+                        <li><a href="/CUB/SelectUnions">Union</a></li>
+                    </ul>
+                  </li>
+                  <?php endif; ?>
+                  <li><a href="/CUB/ValidationRules/">Validation Rules</a></li>
+                  <li><a href="/CUB/UserMessages/index"> Messages</a></li>
+                  <li><a href="/CUB/UserHistory">User History</a></li>
+                  <li><a href="/CUB/Pages/login">Logout</a></li>
+                </ul>
+
+              </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+          </nav>
+            <div class="container-fluid" style="margin-top:-20px;">
+                
+            
+        
+
+        <!-- <div id="wrapper"> -->
 
             <!-- Navigation -->
-            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <!-- <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
@@ -58,10 +155,13 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="index.html">CUB Web Panel</a>
-                </div>
+                </div> -->
                 <!-- /.navbar-header -->
+                
 
-                <ul class="nav navbar-top-links navbar-right">
+
+
+                <!--<ul class="nav navbar-top-links navbar-right"> -->
                     <!--                    <li class="dropdown">
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                                 <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -207,26 +307,26 @@
                                              /.dropdown-alerts 
                                         </li>-->
                     <!-- /.dropdown -->
-                    <li class="dropdown">
+                    <!-- <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-user">
+                        <ul class="dropdown-menu dropdown-user"> -->
                             <!--                            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                                                         </li>
                                                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                                                         </li>
                                                         <li class="divider"></li>-->
-                            <li><a href="/CUB/Pages/login"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            <!-- <li><a href="/CUB/Pages/login"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                             </li>
-                        </ul>
+                        </ul> -->
                         <!-- /.dropdown-user -->
-                    </li>
+                    <!-- </li> -->
                     <!-- /.dropdown -->
-                </ul>
+                <!-- </ul> -->
                 <!-- /.navbar-top-links -->
 
-                <div class="navbar-default sidebar" role="navigation">
+                <!-- <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
                             <li>
@@ -239,9 +339,9 @@
                                     <li><a href="/CUB/Groups">User Groups</a></li>
                                     <li><a href="/CUB/UserGroups">User Group Assignment</a></li>
                                     <li><a href="/CUB/Devices">Device </a></li>
-                                </ul>
+                                </ul> -->
                                 <!-- /.nav-second-level -->
-                            </li>
+                            <!-- </li> -->
                             <!--                            <li>
                                                             <a href="/PSU/QuestionSets"><i class="fa fa-bar-chart-o fa-fw"></i> Surveys<span class="fa arrow"></span></a>
                                                             <ul class="nav nav-second-level" id="survey_menu">
@@ -251,37 +351,37 @@
                                                              /.nav-second-level 
                                                         </li>-->
 
-                            <li>
+                            <!-- <li>
                                 <a href="#"><i class="fa fa-edit fa-fw"></i>Survey Activities <span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
-                                    <li><a href="/CUB/QuestionSets">Surveys</a></li>
-                                    <?php if ($this->Session->read('Auth.User.User.superuser') == '1'): ?>
+                                    <li><a href="/CUB/QuestionSets">Surveys</a></li> -->
+                                    <?php //if ($this->Session->read('Auth.User.User.superuser') == '1'): ?>
                                     <!--                                        <li><a href="/PSU/QuestionSets/Add">Add Survey</a></li>-->
 
-                                    <?php endif; ?>
-                                    <li><a href="/CUB/QuestionGroups">Assign Survey</a></li>
+                                    <?php //endif; ?>
+                                    <!-- <li><a href="/CUB/QuestionGroups">Assign Survey</a></li>
                                     <li><a href="/CUB/UsersQuestionData">User Data</a></li>
-                                    <li><a href="/CUB/UsersQuestionData/auditedsurvey">Audit Reports</a></li>
-                                </ul>
-                            </li>
+                                    <li><a href="/CUB/UsersQuestionData/auditedsurvey">Audit Reports</a></li> -->
+                                <!-- </ul>
+                            </li> -->
                             <!--                            <li>
                                                             <a href="/PSU/QuestionTypes/"><i class="fa fa-question fa-fw"></i>Question Type</a>
                                                         </li>-->
-                            <li>
+                            <!-- <li>
                                 <a href="/CUB/ValidationRules/"><i class="fa fa-lock fa-fw"></i>Validation Rules</a>
                             </li>
                             <li>
                                 
                                 <a href="#"><i class="fa fa-table fa-fw"></i> Reports<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
+                                <ul class="nav nav-second-level"> -->
                                     <!--<li><a href="/CUB/report_manager/reports">Report Generation</a></li>-->
                                     
-                                    <li><a href="/CUB/UsersQuestionData/summaryreport">Report on Survey</a></li>
+                                    <!-- <li><a href="/CUB/UsersQuestionData/summaryreport">Report on Survey</a></li> -->
                                     
                                     <!--<li><a href="/PSU/UsersQuestionData/chartreport">Pie Chart Report</a></li>-->
-                                    <li><a href="/CUB/UsersQuestionData/surveychart">Survey Chart</a></li>
+                                    <!-- <li><a href="/CUB/UsersQuestionData/surveychart">Survey Chart</a></li> -->
 
-                                </ul>
+                                <!-- </ul>
                             </li>
                             <li>
                                 <a href="/CUB/UserMessages/index"><i class="fa fa-envelope-square fa-fw"></i> Messages</a>
@@ -295,32 +395,32 @@
                              </li>
                            
 
-                                    <li><a href="/CUB/UsersQuestionData/map"><i class="fa fa-map-marker fa-fw"></i>Answers Map</a></li>
+                                    <li><a href="/CUB/UsersQuestionData/map"><i class="fa fa-map-marker fa-fw"></i>Answers Map</a></li> -->
 
-                            <?php if ($this->Session->read('Auth.User.User.superuser') == '1'): ?>
-                            <li>
+                            <?php //if ($this->Session->read('Auth.User.User.superuser') == '1'): ?>
+                            <!-- <li>
                                 <a href="/CUB/AndroidApps/"><i class="fa fa-file-o fa-fw"></i> File Upload</a>
                             </li>
                             <li>
                                 <a href="#"><i class="fa fa-fire fa-fw"></i>Setup Data <span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
+                                <ul class="nav nav-second-level"> -->
                                     <!--<li><a href="/CUB/SelectDivisions">Division</a></li>-->
-                                    <li><a href="/CUB/SelectDistricts">District</a></li>
+                                    <!-- <li><a href="/CUB/SelectDistricts">District</a></li>
                                     <li><a href="/CUB/SelectUpzillas">Upzilla</a></li>
-                                    <li><a href="/CUB/SelectUnions">Union</a></li>
+                                    <li><a href="/CUB/SelectUnions">Union</a></li> -->
 <!--                                    <li><a href="/CUB/SelectVillages">Villages</a></li>
                                     <li><a href="/CUB/SelectWaterPointTypes">Water Point Types</a></li>
                                     <li><a href="/CUB/SelectOwnerships">Ownership Types</a></li>
                                     <li><a href="/CUB/SelectLandTypes">Land Types</a></li>-->
-                                </ul>
-                            </li>
-                            <?php endif; ?>
-                            <li>
+                                <!-- </ul>
+                            </li> -->
+                            <?php //endif; ?>
+                            <!-- <li>
                                 <a href="/CUB/UserHistory"><i class="fa fa-history fa-fw"></i> User History</a>
                             </li>
                             <li>
                                 <a href="/CUB/Pages/login"><i class="fa fa-files-o fa-fw"></i> logout</a>
-                            </li>
+                            </li> -->
                             <!--                            <li>
                                                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
                                                             <ul class="nav nav-second-level">
@@ -333,19 +433,22 @@
                                                             </ul>
                                                              /.nav-second-level 
                                                         </li>-->
-                        </ul>
-                    </div>
+                        <!-- </ul>
+                    </div> -->
                     <!-- /.sidebar-collapse -->
-                </div>
+                <!-- </div> -->
                 <!-- /.navbar-static-side -->
-            </nav>
+            <!-- </nav> -->
 
 
-            <div id="page-wrapper">
+            <!-- <div id="page-wrapper"> -->
                 <?= $this->Session->flash() ?>
                 <?= $this->fetch('content') ?>
-            </div>
-        </div>
+            <!-- </div> -->
+        <!-- </div> -->
+                
+            
+    </div>
         <?php
         echo $this->Html->script('metisMenu.min');
         echo $this->Html->script('sb-admin-2');
@@ -379,5 +482,16 @@
 //                });
             });
         </script>
+
+    <script type="text/javascript">
+        $('.dropdown').on('show.bs.dropdown', function(e){
+          $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+        });
+
+        $('.dropdown').on('hide.bs.dropdown', function(e){
+          $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+        });
+    </script>
+
     </body>
 </html>
