@@ -98,6 +98,12 @@
                     url: thiselem.attr('info'),
                     map: map
                 });
+            }else{
+                var ctaLayer = new google.maps.KmlLayer({
+//                    url: website + 'UIAPI/get_kml/' + thiselem.attr('info'),
+                    //url: thiselem.attr('info'),
+                    map: map
+                });
             }
         });
     });

@@ -707,6 +707,13 @@ class SurveyAPIController extends AppController {
                             'village_id' => (substr($result->water_code, 15, 2) != "00") ? substr($result->water_code, 15, 2) : NULL,
                         ));
                     } else {
+                        // SAVE mobile ID and ref supervisor ID
+                        $child_ref_survey_id = NULL;
+			$mobileSurveyID = isset($result->mobile_survey_id) ? $result->mobile_survey_id : null ;
+                        $mobileUUID = isset($result->inserted_device_id) ? $result->inserted_device_id : null ;
+			if($result->is_supervisor == "1"){
+				$child_ref_survey_id = $result->user_survey_id;
+			}
                         $this->UsersQuestionData->save(array('user_id' => $user_id,
                             'qsn_set_master_id' => $result->qsn_set_id,
                             'geo_lat' => $result->location->latitude,
@@ -715,13 +722,15 @@ class SurveyAPIController extends AppController {
                             'is_supervisor' => $result->is_supervisor,
                             'visible_name_by_user' => $result->visible_name_by_user,
                             'user_form_id' => $result->user_form_id,
-                            //'child_ref_survey_id' => $result->child_ref_survey_id// child_survey_data_id 
+                            'child_ref_survey_id' => $child_ref_survey_id,
+			    'mobile_survey_id' => $mobileSurveyID,
+                            'inserted_device_id' => $mobileUUID  
                         ));
                     }
                     $qsndataID = $this->UsersQuestionData->getLastInsertId();
                     if ($result->is_supervisor == 1 && $qsndataID > 0) {
                         if (isset($result->user_survey_id)) {
-                            $this->UsersQuestionData->query(" UPDATE pmtc_users_question_data SET is_audit_done = 'Y' WHERE id = " . $result->user_survey_id);
+                            $this->UsersQuestionData->query(" UPDATE pmtc_users_question_data SET is_audit_done = 'Y', supervisor_survey_id = $qsndataID WHERE id = " . $result->user_survey_id);
                         }
                     }
                     $qsn_lists = $result->qsn_lists;

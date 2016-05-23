@@ -45,20 +45,26 @@ class UsersAPIController extends AppController {
         if (!$username) {
             $username = $this->request->query['user'];
             $pass = $this->request->query['pass'];
+$imei = $this->request->query['imei'];
         }
         //$username = "test";
         //$pass = "test123";
         $inputs = $this->request;
 
         $this->loadModel('User');
+        //$this->loadModel('UsersQuestionData');
         $this->User->recursive = 0;
         $user = $this->User->find('first', array(
             'fields' => array('id', 'first_name', 'Device.id', 'Device.device_imei', 'last_name', 'msisdn', 'device_id'),
             'conditions' => array('User.user_name' => $username, 'User.password' => $pass)));
 
+        
         $this->response->disableCache();
 
         if ($user) {
+           // $this->UsersQuestionData->recursive = -1;
+            $lastID = $this->User->query(" SELECT MAX(mobile_survey_id) as last_inserted_id FROM pmtc_users_question_data WHERE inserted_device_id LIKE '".$imei."' AND user_id = " . $user['User']['id'] );
+            $user['User']['last_inserted_id'] = $lastID[0][0]['last_inserted_id'];
             $this->loadModel("UserHistory");
             $this->UserHistory->create();
             $this->UserHistory->save(array('user_id' => $user['User']['id'],

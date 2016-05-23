@@ -12,19 +12,27 @@ class UIAPIController extends AppController {
         $this->autoRender = FALSE;
     }
 
+    public function get_audited_comment($surveyid = null) {
+        if ($surveyid) {
+            $this->loadModel("SurveyComparisonData");
+            $ans = $this->SurveyComparisonData->find('first', array('conditions' => array('field_user_survey_id' => $surveyid)));
+            echo json_encode($ans);
+        }
+    }
+
     public function get_audited_entries($userid = null, $surveyid = null) {
         if ($userid && $surveyid) {
             $this->loadModel("UsersQuestionData");
-            /*$qs = $this->UsersQuestionData->query("SELECT IFNULL(visible_name_by_user,'-') as name,UserQuestionData.id,Users.user_name as uname, is_audit_done,DATE_FORMAT(insert_time,'%b %d %Y %h:%i %p') as time "
-                    . "FROM pmtc_users_question_data UserQuestionData"
-                    . " Inner join pmtc_users Users on Users.id = UserQuestionData.user_id "
-                    . " where qsn_set_master_id = $surveyid and user_id=$userid");
-            echo json_encode($qs);
+            /* $qs = $this->UsersQuestionData->query("SELECT IFNULL(visible_name_by_user,'-') as name,UserQuestionData.id,Users.user_name as uname, is_audit_done,DATE_FORMAT(insert_time,'%b %d %Y %h:%i %p') as time "
+              . "FROM pmtc_users_question_data UserQuestionData"
+              . " Inner join pmtc_users Users on Users.id = UserQuestionData.user_id "
+              . " where qsn_set_master_id = $surveyid and user_id=$userid");
+              echo json_encode($qs);
              */
 
 // query reviewed for fetching supervisors data :: Riad
 
-$qs = $this->UsersQuestionData->query("SELECT user_survey_name, user_survey_id, uname, supervisor_uname, time, audit_time, is_audit_done 
+            $qs = $this->UsersQuestionData->query("SELECT user_survey_name, user_survey_id, uname, supervisor_uname, time, audit_time, is_audit_done 
 FROM
 (
 SELECT IFNULL(UserQuestionData.visible_name_by_user,'-') as user_survey_name,UserQuestionData.id as user_survey_id,Users.user_name as uname, UserQuestionData.is_audit_done,DATE_FORMAT(UserQuestionData.insert_time,'%b %d %Y %h:%i %p') as time 
@@ -36,16 +44,14 @@ SELECT IFNULL(UserQuestionData.visible_name_by_user,'-') as user_survey_name,Use
  SELECT UserQuestionData.user_id, IFNULL(Users.user_name, '-') as supervisor_uname, UserQuestionData.child_ref_survey_id, IFNULL(DATE_FORMAT(UserQuestionData.insert_time,'%b %d %Y %h:%i %p'), '-') as audit_time FROM pmtc_users_question_data UserQuestionData Inner join pmtc_users Users on Users.id = UserQuestionData.user_id  where is_supervisor = 1 and child_ref_survey_id IS NOT NULL and qsn_set_master_id = $surveyid GROUP BY child_ref_survey_id 
  ) Audit_Surveys ON Child_Surveys.user_survey_id = Audit_Surveys.child_ref_survey_id ");
 
- echo json_encode($qs);
-  
+            echo json_encode($qs);
         }
     }
-
 
     public function get_kml_heads($kml_id) {
 
         $this->loadModel('Kml');
-        if ($kml_id!=0)
+        if ($kml_id != 0)
             $options = array('recursive' => -1, 'conditions' => array("Kml.parent_id = $kml_id")); //    
         else
             $options = array('recursive' => -1, 'conditions' => array('Kml.parent_id is null')); //
@@ -242,7 +248,7 @@ SELECT IFNULL(UserQuestionData.visible_name_by_user,'-') as user_survey_name,Use
     public function get_options_for_question_edit($questionID = null) {
         if ($questionID) {
             $this->loadModel('SelectMisc');
-            echo json_encode($this->SelectMisc->find('all', array('recursive'=>-1,'conditions' => array('question_id' => $questionID))));
+            echo json_encode($this->SelectMisc->find('all', array('recursive' => -1, 'conditions' => array('question_id' => $questionID))));
         }
     }
 

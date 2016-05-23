@@ -191,6 +191,7 @@ var map ;
             }
 //            center: new google.maps.LatLng(23.7806365, 90.4193257)
         };
+        var ctaLayer;
         map = new google.maps.Map(document.getElementById('map-canvas'),
                 mapOptions);
          $.getJSON(website + "UIAPI/get_kml_heads/0", function (data) {
@@ -207,13 +208,15 @@ var map ;
                     
                     $('.kmlchild').change(function () {
                         var thiselem = $(this);
+                            console.log(thiselem.attr('info'));
                         if (thiselem.is(":checked")) {
-//                            console.log(thiselem.attr('link'));
-                            var ctaLayer = new google.maps.KmlLayer({
+                             ctaLayer= new google.maps.KmlLayer({
             //                    url: website + 'UIAPI/get_kml/' + thiselem.attr('info'),
                                 url: thiselem.attr('info'),
                                 map: map
                             });
+                        }else{
+                            ctaLayer = null;
                         }
                     });
                 }
