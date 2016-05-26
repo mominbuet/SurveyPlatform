@@ -1,4 +1,5 @@
 <!-- Copyright (c) 2012-2013 Luis E. S. Dias - www.smartbyte.com.br -->
+
 <fieldset>
     <legend><?php echo $modelClass; ?></legend>
     <table class="reportManagerFilterSelector" cellpadding="0" cellspacing="0">
@@ -6,6 +7,7 @@
             <tr>
 
                 <td><?php echo __('Field'); ?></td>
+                <td><?php echo __('Alias'); ?></td>
                 <td class="reportManagerFilterNot"><?php echo __('Not'); ?></td>
                 <td class="reportManagerFilterCriteria"><?php echo __('Criteria'); ?></td>
                 <td class="reportManagerFilterExample"><?php echo __('Example'); ?></td>
@@ -33,8 +35,10 @@
             echo $this->Form->input($modelClass . '.' . $field . '.' . 'Alias', array('label' => '', 'class' => 'form-control ', 'maxlength' => '30',
                 'value' => ( isset($labelFieldList[$modelClass][$field]) ? $labelFieldList[$modelClass][$field] : ( isset($labelFieldList['*'][$field]) ? $labelFieldList['*'][$field] : $field ))));
 //            echo ( isset($labelFieldList[$modelClass][$field]) ? $labelFieldList[$modelClass][$field] : ( isset($labelFieldList['*'][$field]) ? $labelFieldList['*'][$field] : $field ));
-            echo '</td>';
-            echo '<td >';
+            echo '</td><td>';
+    echo ($questionsText[$field]);
+    
+            echo '</td ><td >';
             if (isset($this->data[$modelClass][$field]['Not']))
                 $modelFieldNot = $this->data[$modelClass][$field]['Not'];
             else

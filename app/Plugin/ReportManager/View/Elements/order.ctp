@@ -5,6 +5,7 @@
             <thead>
                 <tr>
                     <td><?php echo __d('report_manager','Field'); ?></td>
+                    <td>Alias</td>
                     <td class="reportManagerFieldOrder1"><?php echo __d('report_manager','Order 1'); ?></td>
                     <td class="reportManagerFieldOrder2"><?php echo __d('report_manager','Order 2'); ?></td>                    
                 </tr>
@@ -14,8 +15,10 @@
             echo '<tr>';
             echo '<td>';
             echo ( isset($labelFieldList[$modelClass][$field]) ? $labelFieldList[$modelClass][$field] : ( isset($labelFieldList['*'][$field]) ? $labelFieldList['*'][$field] : $field ));            
-            echo '</td>';
-            echo '<td>';
+            echo '</td><td>';
+            
+            echo ($questionsText[$field]);
+            echo '</td><td>';
             echo $this->Form->input($modelClass.'.'.$field.'.'.'OrderBy1',
                     array('name'=>'data[Report][OrderBy1]',
                         'legend'=>false,

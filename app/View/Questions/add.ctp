@@ -82,7 +82,13 @@
                                            value="<?= $prev_section['name'] ?>"
                                            type="text" name="data[Question][section_name]"
                                            id="section_name" placeholder="Insert the name of this section otherwise it will be default"/>
-				     &nbsp;&nbsp;&nbsp;Answer Visible by Supervisor? &nbsp;
+				     &nbsp;&nbsp;&nbsp;
+                                     <input class="form-control" 
+                                           value="<?= $prev_section['serial'] ?>"
+                                           type="text" name="data[Question][section_serial]"
+                                           id="section_serial" placeholder="Serial inside the section"/>
+				     &nbsp;&nbsp;&nbsp;
+                                     Answer Visible by Supervisor? &nbsp;
 				    <?php echo $this->Form->input('is_answer_visible', array('div' => false, 'type' => 'select','options'=>array('Y' => "Yes", 'N' => "No"),'label' => false)); ?>
                                 </div>
 

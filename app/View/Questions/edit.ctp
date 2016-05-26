@@ -2,7 +2,7 @@
     <h1>Edit question</h1>
     <div class="col-lg-12">
         <div class="">
-            <div class="">
+            <div class="panel">
 
                 <div class="panel-body">
                     <div class="row">
@@ -26,8 +26,12 @@
                                         <input class="form-control" 
                                                value="<?= $prev_section['name'] ?>"
                                                type="text" name="data[Question][section_name]"
-                                               id="section_name" placeholder="Insert the name of this section otherwise it will be default"/>
-
+                                               id="section_name" placeholder="Insert the name of this section otherwise it will be default"/>&nbsp;&nbsp;&nbsp;
+  <input class="form-control" 
+                                           value="<?= $prev_section['serial'] ?>"
+                                           type="text" name="data[Question][section_serial]"
+                                           id="section_serial" placeholder="Serial inside the section"/>
+				     &nbsp;&nbsp;&nbsp;
                                     </div>
 
                                     <p class="help-block">Please select the Section of the Question.</p>

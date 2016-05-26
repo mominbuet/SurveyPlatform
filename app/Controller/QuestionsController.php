@@ -58,7 +58,7 @@ class QuestionsController extends AppController {
     public function add($qset = null) {
         $this->loadModel('QuestionType');
         if ($this->request->is('post')) {
-            $SelectMisc = $this->request->data['SelectMisc'];
+
             $this->Question->create();
 //            debug($this->request->data['Question']);
             if (array_key_exists('validation_text2', $this->request->data['Question'])) {
@@ -78,23 +78,26 @@ class QuestionsController extends AppController {
                     'user_event' => 'Added Question ',
                 ));
                 $this->loadModel('SelectMisc');
+
 //                debug($this->request->data['SelectMiscNext']);
                 $i = 0;
-
-                if ($this->request->data['SelectMiscNext']) {
-                    foreach ($SelectMisc as $sm) {
-                        if ($sm != "") {
-                            $this->SelectMisc->create();
-                            if ($this->request->data['SelectMiscNext'][$i] != '0')
-                                $this->SelectMisc->save(array('misc_option' => $sm,
-                                    'next_section_id' => $this->request->data['SelectMiscNext'][$i],
-                                    'misc_option_bangla' => $this->request->data['SelectMiscBangla'][$i],
-                                    'question_id' => $this->Question->id));
-                            else
-                                $this->SelectMisc->save(array('misc_option' => $sm,
-                                    'misc_option_bangla' => $this->request->data['SelectMiscBangla'][$i],
-                                    'question_id' => $this->Question->id));
-                            $i++;
+                if (array_key_exists('SelectMisc ', $this->request->data)) {
+                    $SelectMisc = $this->request->data['SelectMisc'];
+                    if ($this->request->data['SelectMiscNext']) {
+                        foreach ($SelectMisc as $sm) {
+                            if ($sm != "") {
+                                $this->SelectMisc->create();
+                                if ($this->request->data['SelectMiscNext'][$i] != '0')
+                                    $this->SelectMisc->save(array('misc_option' => $sm,
+                                        'next_section_id' => $this->request->data['SelectMiscNext'][$i],
+                                        'misc_option_bangla' => $this->request->data['SelectMiscBangla'][$i],
+                                        'question_id' => $this->Question->id));
+                                else
+                                    $this->SelectMisc->save(array('misc_option' => $sm,
+                                        'misc_option_bangla' => $this->request->data['SelectMiscBangla'][$i],
+                                        'question_id' => $this->Question->id));
+                                $i++;
+                            }
                         }
                     }
                 }
@@ -116,7 +119,7 @@ class QuestionsController extends AppController {
 //            'group' => array('Question.id')));
         $prev_section = array('name' => '', 'id' => '');
         $section_name_prev = $this->Question->find('first', array(
-            'fields' => array('section_name', 'section_id'),
+            'fields' => array('section_name', 'section_id', 'section_serial'),
             'recursive' => -1,
             'conditions' => array('qsn_set_id' => $qset),
             'order' => array('id' => 'Desc')));
@@ -124,6 +127,7 @@ class QuestionsController extends AppController {
         if (sizeof($section_name_prev) > 0) {
             $prev_section['name'] = $section_name_prev['Question']['section_name'];
             $prev_section['prev_id'] = $section_name_prev['Question']['section_id'];
+            $prev_section['serial'] = $section_name_prev['Question']['section_serial'];
         }
         $qsnSections = $this->Question->QuestionSection->find('list');
         $qsnTypesAll = $this->Question->QuestionType->find('all');
@@ -154,37 +158,42 @@ class QuestionsController extends AppController {
 
             if ($this->Question->save($this->request->data)) {
                 $this->loadModel('SelectMisc');
-//                debug($this->request->data['SelectMiscNext']);
-                $i = 0; $j=0;
+//                debug($this->request->data);
+                $i = 0;
+                $j = 0;
                 if ($this->request->data['SelectMiscNext']) {
                     $this->SelectMisc->deleteAll(array('SelectMisc.question_id' => $id), false);
-                    $SelectMisc = $this->request->data['SelectMisc'];
-                    foreach ($SelectMisc as $sm) {
-                        if ($sm != "") {
-                            $this->loadModel('UserHistory');
-                            $this->UserHistory->create();
-                            $this->UserHistory->save(array('user_id' => $this->Session->read('Auth.User.User.id'),
-                                'event_details' => "Edited Question " . $this->request->header('User-Agent'),
-                                'ipaddress' => $this->request->clientIp(),
-                                'event_time' => $this->UserHistory->getDataSource()->expression('NOW()'),
-                                'user_event' => 'Edited Question ',
-                            ));
-                            //if(!$this->request->data['SelectMiscId'][$j])
+
+                    if (array_key_exists('SelectMisc', $this->request->data)) {
+                        $SelectMisc = $this->request->data['SelectMisc'];
+                        foreach ($SelectMisc as $sm) {
+                            if ($sm != "") {
+                                $this->loadModel('UserHistory');
+                                $this->UserHistory->create();
+                                $this->UserHistory->save(array('user_id' => $this->Session->read('Auth.User.User.id'),
+                                    'event_details' => "Edited Question " . $this->request->header('User-Agent'),
+                                    'ipaddress' => $this->request->clientIp(),
+                                    'event_time' => $this->UserHistory->getDataSource()->expression('NOW()'),
+                                    'user_event' => 'Edited Question ',
+                                ));
+                                //if(!$this->request->data['SelectMiscId'][$j])
 //                            debug($this->request->data['SelectMiscBangla'][$i]);
-                            $this->SelectMisc->create();
+                                $this->SelectMisc->create();
 //                            debug($this->request->data['SelectMiscNext']);
-                            if ($this->request->data['SelectMiscNext'][$i] != '0'){
-                                
-                                $this->SelectMisc->save(array('misc_option' => $sm,
-                                    //'misc_id'=>$this->request->data['SelectMiscId'][$j],
-                                    'misc_option_bangla' => $this->request->data['SelectMiscBangla'][$j],
-                                    'next_section_id' => $this->request->data['SelectMiscNext'][$i],
-                                    'question_id' => $this->Question->id));
-                            }else
-                                $this->SelectMisc->save(array('misc_option' => $sm,
-                                    'misc_option_bangla' => (array_key_exists ($j, $this->request->data['SelectMiscBangla']))?$this->request->data['SelectMiscBangla'][$j]:null,
-                                    'question_id' => $this->Question->id));
-                            $i++;$j++;
+                                if ($this->request->data['SelectMiscNext'][$i] != '0') {
+
+                                    $this->SelectMisc->save(array('misc_option' => $sm,
+                                        //'misc_id'=>$this->request->data['SelectMiscId'][$j],
+                                        'misc_option_bangla' => $this->request->data['SelectMiscBangla'][$j],
+                                        'next_section_id' => $this->request->data['SelectMiscNext'][$i],
+                                        'question_id' => $this->Question->id));
+                                } else
+                                    $this->SelectMisc->save(array('misc_option' => $sm,
+                                        'misc_option_bangla' => (array_key_exists($j, $this->request->data['SelectMiscBangla'])) ? $this->request->data['SelectMiscBangla'][$j] : null,
+                                        'question_id' => $this->Question->id));
+                                $i++;
+                                $j++;
+                            }
                         }
                     }
                 }
@@ -207,7 +216,7 @@ class QuestionsController extends AppController {
         $qsnSections = $this->Question->QuestionSection->find('list');
         $prev_section = array('name' => '', 'id' => '');
         $section_name_prev = $this->Question->find('first', array(
-            'fields' => array('section_name', 'section_id'),
+            'fields' => array('section_name', 'section_id', 'section_serial'),
             'recursive' => -1,
             'conditions' => array('id' => $id),
             'order' => array('id' => 'Desc')));
@@ -215,6 +224,7 @@ class QuestionsController extends AppController {
         if (sizeof($section_name_prev) > 0) {
             $prev_section['name'] = $section_name_prev['Question']['section_name'];
             $prev_section['prev_id'] = $section_name_prev['Question']['section_id'];
+            $prev_section['serial'] = $section_name_prev['Question']['section_serial'];
         }
         $data_array = array();
         foreach ($qsnTypesAll as $qtype) {

@@ -22,11 +22,18 @@ class SurveyAPIController extends AppController {
         $this->autoRender = FALSE;
     }
 
-    public function save_directory() {
+    public function get_directory($user_id) {
 
         $this->loadModel('UserDirectory');
-        $this->UserDirectory->create();
-        echo json_encode($this->UserDirectory->save($this->request->data));
+$this->UserDirectory->recursive = -1;
+$injoins = array(
+  'table' => 'pmtc_user_groups',
+                                   'alias' => 'UserGroups',
+                                   'type' => 'INNER',
+                                   'conditions' => array('UserDirectory.user_group_id = UserGroups.group_id')
+);
+        $dir_data = $this->UserDirectory->find('all', array('fields' => array('id', 'name', 'phone', 'address', 'comment'), 'joins' => array($injoins), 'conditions' => array('UserGroups.user_id' => $user_id )));
+        echo json_encode(array("Status" => "true", "Directory" => $dir_data) );
     }
 
     public function save_directories() {

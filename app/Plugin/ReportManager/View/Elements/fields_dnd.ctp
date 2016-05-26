@@ -1,4 +1,3 @@
-
 <?php
 
 foreach ($modelSchema as $field => $attributes):

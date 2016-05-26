@@ -30,6 +30,7 @@ echo $this->Html->script('jquery-ui.min');
                                     <th><?php echo $this->Paginator->sort('qsn_type_id'); ?></th>
 <!--                                    <th><?php // echo $this->Paginator->sort('qsu_order');  ?></th>-->
                                     <th><?php echo $this->Paginator->sort('section_id','Section Name'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('section_serial'); ?></th>
                                     <th class="actions"><?php echo __('Actions'); ?></th>
                                 </tr>
                             </thead>
@@ -53,6 +54,9 @@ echo $this->Html->script('jquery-ui.min');
                                         <!--<td><?php // echo h($question['Question']['qsu_order']);  ?>&nbsp;</td>-->
                                         <td>
     <?= $question['QuestionSection']['section_name'] ?>
+                                        </td>
+                                        <td>
+    <?= $question['Question']['section_serial'] ?>
                                         </td>
                                         <td class="actions">
 
