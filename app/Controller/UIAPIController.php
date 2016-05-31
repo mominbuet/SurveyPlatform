@@ -32,18 +32,17 @@ class UIAPIController extends AppController {
 
 // query reviewed for fetching supervisors data :: Riad
 
-            $qs = $this->UsersQuestionData->query("SELECT user_survey_name, user_survey_id, uname, supervisor_uname, time, audit_time, is_audit_done 
+            $qs = $this->UsersQuestionData->query("SELECT user_survey_name, user_survey_id, uname, supervisor_uname, time, audit_time, is_audit_done, su_survey_id  
 FROM
 (
-SELECT IFNULL(UserQuestionData.visible_name_by_user,'-') as user_survey_name,UserQuestionData.id as user_survey_id,Users.user_name as uname, UserQuestionData.is_audit_done,DATE_FORMAT(UserQuestionData.insert_time,'%b %d %Y %h:%i %p') as time 
+SELECT IFNULL(UserQuestionData.visible_name_by_user,'-') as user_survey_name,UserQuestionData.id as user_survey_id, UserQuestionData.supervisor_survey_id as user_supervisor_survey_id, Users.user_name as uname, UserQuestionData.is_audit_done,DATE_FORMAT(UserQuestionData.insert_time,'%b %d %Y %h:%i %p') as time 
                     FROM pmtc_users_question_data UserQuestionData
                    Inner join pmtc_users Users on Users.id = UserQuestionData.user_id  
  where UserQuestionData.qsn_set_master_id = $surveyid and UserQuestionData.user_id= $userid and is_supervisor = 0 
  ) Child_Surveys LEFT JOIN 
  (
- SELECT UserQuestionData.user_id, IFNULL(Users.user_name, '-') as supervisor_uname, UserQuestionData.child_ref_survey_id, IFNULL(DATE_FORMAT(UserQuestionData.insert_time,'%b %d %Y %h:%i %p'), '-') as audit_time FROM pmtc_users_question_data UserQuestionData Inner join pmtc_users Users on Users.id = UserQuestionData.user_id  where is_supervisor = 1 and child_ref_survey_id IS NOT NULL and qsn_set_master_id = $surveyid GROUP BY child_ref_survey_id 
- ) Audit_Surveys ON Child_Surveys.user_survey_id = Audit_Surveys.child_ref_survey_id ");
-
+ SELECT UserQuestionData.id as su_survey_id,UserQuestionData.user_id, IFNULL(Users.user_name, '-') as supervisor_uname, UserQuestionData.child_ref_survey_id, IFNULL(DATE_FORMAT(UserQuestionData.insert_time,'%b %d %Y %h:%i %p'), '-') as audit_time FROM pmtc_users_question_data UserQuestionData Inner join pmtc_users Users on Users.id = UserQuestionData.user_id  where is_supervisor = 1  and qsn_set_master_id = $surveyid GROUP BY su_survey_id 
+ ) Audit_Surveys ON Child_Surveys.user_supervisor_survey_id = Audit_Surveys.su_survey_id ");
             echo json_encode($qs);
         }
     }
@@ -135,8 +134,9 @@ SELECT IFNULL(UserQuestionData.visible_name_by_user,'-') as user_survey_name,Use
         }
     }
 
-    public function get_comparative_answers($questionID = null) {
+    public function get_comparative_answers($questionID = null, $su_qsn_id = null) {
         if ($questionID) {
+            //$ids = explode('#', $questionIDs);
             $this->loadModel('Question');
 //            $this->QuestionAnswer->recursive = 2;
             $qs = $this->Question->find('all', array(
@@ -200,7 +200,7 @@ SELECT IFNULL(UserQuestionData.visible_name_by_user,'-') as user_survey_name,Use
                 ),
                 'fields' => array(
                     'IFNULL(QuestionAnswer.qsn_answer,\'-\') as ans', 'IFNULL(QuestionAnswer.id,\'-\') as ansid', 'QuestionAnswer.user_qsn_data_id', 'Question.id'),
-                'conditions' => array('UsersQuestionData.child_ref_survey_id' => $questionID,
+                'conditions' => array('UsersQuestionData.id' => $su_qsn_id,
                     'Question.qsn_desc is not null'),
                 'order' => array('Question.id' => 'Asc')));
             echo json_encode(array("original" => $qs, "audited" => $qs2));
