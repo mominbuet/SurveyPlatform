@@ -1,4 +1,4 @@
-# SurveyPlatform in Cakephp
+# Web-based mobile SurveyPlatform in Cakephp, Android-SDK, MAP
 
 A platform on web to do monitor and conduct different surveys. The survey is done on mobile while its controlled by this web app.
 
@@ -12,6 +12,7 @@ A platform on web to do monitor and conduct different surveys. The survey is don
 * Group level users with supervisors and multi level admins
 * APIs for mobile 
 * File Upload and view module
+* Audit/view reports (bar/chart)
 
 ## Description
 
